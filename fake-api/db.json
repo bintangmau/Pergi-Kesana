@@ -1,0 +1,97 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "Sudjatmiko",
+      "role": "Admin",
+      "password": "password"
+    },
+    {
+      "username": "cok",
+      "email": "cok",
+      "password": "cok",
+      "role": "user",
+      "id": 2
+    },
+    {
+      "username": "bintang",
+      "email": "bintang",
+      "password": "bintang",
+      "role": "user",
+      "id": 3
+    },
+    {
+      "username": "tes",
+      "email": "tes",
+      "password": "tes",
+      "role": "user",
+      "id": 4
+    },
+    {
+      "username": "Joni",
+      "email": "Jono.com",
+      "password": "Jono",
+      "role": "user",
+      "id": 5
+    },
+    {
+      "username": "Kertas",
+      "email": "Kertas.com",
+      "password": "kertas",
+      "role": "user",
+      "id": 6
+    },
+    {
+      "username": "Batu",
+      "email": "Batu.com",
+      "password": "batu",
+      "role": "user",
+      "id": 7
+    },
+    {
+      "username": "gatot",
+      "email": "gatot",
+      "password": "gatot",
+      "role": "user",
+      "id": 8
+    }
+  ],
+  "destination": [
+    {
+      "country": "CZECH REPUBLIC",
+      "id": 1,
+      "continent": "Europe",
+      "date": "August, 30, 2019 - September, 5 2019",
+      "hotel": "Prague Hotel",
+      "price": 2100,
+      "airline": "Java Airline",
+      "amenities": "Guide, Breakfast",
+      "img": "http://minoritynomad.com/wp-content/uploads/2018/08/DSC09456.jpg",
+      "desc": "Caption Instagram dibutuhkan guna membuat foto semakin berkesan, tidak jarang banyak orang yang kehabisan caption untuk foto yang akan diunggah ke Instagram. Pada beberapa kondisi ketika memang sedang traveling namun merasa harus mengunggah foto traveling ke Instagram, caption berikut bisa digunakan agar foto traveling semakin berkesan."
+    },
+    {
+      "country": "TURKEY",
+      "id": 2,
+      "continent": "Europe",
+      "date": "September, 10, 2019 - September, 16 2019",
+      "hotel": "Istanbul Hotel",
+      "price": 2000,
+      "airline": "Turkish Airline",
+      "amenities": "Guide, Breakfast",
+      "img": "https://www.barraques.cat/pngfile/big/44-444866_photography-turkey-istanbul-sky-landscapes-buildings-istanbul.jpg",
+      "desc": "Caption Instagram dibutuhkan guna membuat foto semakin berkesan, tidak jarang banyak orang yang kehabisan caption untuk foto yang akan diunggah ke Instagram. Pada beberapa kondisi ketika memang sedang traveling namun merasa harus mengunggah foto traveling ke Instagram, caption berikut bisa digunakan agar foto traveling semakin berkesan."
+    },
+    {
+      "country": "THAILAND",
+      "id": 3,
+      "continent": "Asia",
+      "date": "September, 15, 2019 - September, 20 2019",
+      "hotel": "Bangkok Hotel",
+      "price": 1400,
+      "airline": "Banci Airline",
+      "amenities": "Guide, Breakfast",
+      "img": "https://pix10.agoda.net/geo/city/9395/1_9395_02.jpg?s=1920x822",
+      "desc": "Caption Instagram dibutuhkan guna membuat foto semakin berkesan, tidak jarang banyak orang yang kehabisan caption untuk foto yang akan diunggah ke Instagram. Pada beberapa kondisi ketika memang sedang traveling namun merasa harus mengunggah foto traveling ke Instagram, caption berikut bisa digunakan agar foto traveling semakin berkesan."
+    }
+  ]
+}

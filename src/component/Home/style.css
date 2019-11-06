@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Kalam&display=swap');
+
+.bungkus {
+    margin: 200px auto 100px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-gap: 20px
+}
+
+.img-box img{
+    width: 100px;
+    height: 570px;
+}
+
+.hotelJudul {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    align-items: center;
+}
+.navbar {
+    height: 95px;
+  background: black;
+}
+.judul {
+    font-family:'Permanent Marker';
+    color: brown;
+}
+
+.title {
+    text-align: center;
+}
+.navFont {
+    color : white;
+    font-family: 'Roboto'
+}
+.tampil {
+    margin-top: 45px;
+    font-family: 'Kalam', cursive;
+    font-weight: bold;
+    text-align: center;
+}

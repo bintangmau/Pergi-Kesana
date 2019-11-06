@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css?family=Staatliches&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto+Slab&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Caveat&display=swap');
+
+.judulHotel {
+    text-align : center;
+    margin-top: 25px;
+    font-family: 'Staatliches', cursive;
+}
+
+body {
+    margin: 0; 
+    padding: 0;    
+    font-family: 'Roboto Slab', serif;
+    background:white;
+    background-size: initial;
+}
+
+.bungkus-box {
+    position: relative; /* relative utk membungkus-box absolute */
+    width: 900px; /* lebar*/
+    margin: 40px 70px 0px;
+    margin-top: 50px;
+    display: grid; /* blum tau*/
+    grid-template-columns: 1.2fr 1fr 1fr;
+    grid-template-rows: 440px;
+    grid-gap: 30px;
+}
+
+.bungkus-box h5 {
+    letter-spacing: 1px;
+    font-family: 'Caveat', cursive;
+    font-size: 26px;
+    margin-left: 10px
+}
+
+.bungkus-box .card {
+    position: relative;
+    background: #ccc;
+    overflow: hidden; /* scroll*/
+    border-radius: 15px;
+    transition: 0.5s /*penghias hover biar keren*/
+}
+
+.bungkus-box .card .img-box {
+    position: absolute; /* dibungkus-box relative*/
+    top : 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: 0.5s
+}
+.bungkus-box .card:hover {
+    transform: translateY(-20px); /* agar gambar bisa naik ketika di hover*/
+    box-shadow: 0 20px 20px black;
+}
+
+.bungkus-box .card:hover .img-box {
+    opacity: 0.5;
+}
+
+.bungkus-box .card .img-box img {
+    width: 100%;
+}
+
+.bungkus-box .card .content {
+    position: absolute;
+    width: 100%;
+    height: 60%;
+    bottom: 0px;
+    padding: 12px;
+    padding-top: 50px;
+    box-sizing: border-box;
+    text-align: center;
+    transition: 0.6s;
+}
+.bungkus-box .card:hover .content {
+    bottom: 0;
+}
+.bungkus-box .card:nth-child(1) .content {
+    background: linear-gradient(0deg, black, transparent);
+} 
+.bungkus-box .card:nth-child(2) .content {
+    background: linear-gradient(0deg, purple, transparent);
+} 
+.bungkus-box .card:nth-child(3) .content {
+    background: linear-gradient(0deg, green, transparent);
+} 
+
+.bungkus-box .card .content h2 {
+    margin : 0 0 10px ;
+    padding: 0;
+    color: white;
+    font-weight: bold;
+    font-size: 30px;
+    font-family: 'Permanent Marker', cursive;
+}
+.bungkus-box .card .content h2 span {
+    color: yellow;
+    font-size: 16px;
+}
+
+.content p {
+    color: white
+}
+

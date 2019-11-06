@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Slab&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Caveat&display=swap');
+
+body {
+    margin: 0; 
+    padding: 0;    
+    font-family: 'Roboto Slab', serif;
+    background:wheat;
+    background-size: initial;
+}
+
+.bungkus {
+    position: relative; /* relative utk membungkus absolute */
+    width: 1000px; /* lebar*/
+    margin: 50px auto 50px;
+    display: grid; /* blum tau*/
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 440px;
+    grid-gap: 70px;
+}
+
+.bungkus h5 {
+    letter-spacing: 1px;
+    font-family: 'Caveat', cursive;
+    font-size: 25px
+}
+
+.bungkus .kartu {
+    position: relative;
+    background: #ccc;
+    overflow: hidden; /* scroll*/
+    border-radius: 10px;
+    transition: 0.5s; /*penghias hover biar keren*/
+    box-shadow: 2px 2px 2px 2px grey
+}
+
+.bungkus .kartu .img-box {
+    position: absolute; /* dibungkus relative*/
+    top : 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: 0.5s
+}
+.bungkus .kartu:hover {
+    transform: translateY(-20px); /* agar gambar bisa naik ketika di hover*/
+    box-shadow: 0 20px 20px rgba(0, 0, 0, .5);
+}
+
+.bungkus .kartu:hover .img-box {
+    opacity: 0.5;
+}
+
+.bungkus .kartu .img-box img {
+    width: 100%;
+}
+
+.bungkus .kartu .content {
+    position: absolute;
+    width: 100%;
+    height: 60%;
+    bottom: 0px;
+    padding: 20px;
+    padding-top: 60px;
+    box-sizing: border-box;
+    text-align: center;
+    transition: 0.5s;
+}
+.bungkus .kartu:hover .content {
+    bottom: 0;
+}
+.bungkus .kartu:nth-child(1) .content {
+    background: linear-gradient(0deg, black, transparent);
+} 
+.bungkus .kartu:nth-child(2) .content {
+    background: linear-gradient(0deg, purple, transparent);
+} 
+.bungkus .kartu:nth-child(3) .content {
+    background: linear-gradient(0deg, black, transparent);
+} 
+
+.bungkus .kartu .content h2 {
+    margin : 0 0 10px ;
+    padding: 0;
+    color: white;
+    font-weight: bold;
+    font-size: 25px;
+    font-family: 'Permanent Marker', cursive;
+}
+.bungkus .kartu .content h2 span {
+    color: yellow ;
+    font-size: 14px;
+}
+
+.content p {
+    color: white;
+    font-size: 13px
+}
