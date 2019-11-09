@@ -7,7 +7,7 @@ class Slideshow extends Component {
             <div>
                         <div className="slide slide1">
                             <div className="slide-content">
-                                <span>From Start to Finish.</span>
+                                {/* <span>From Start to Finish.</span> */}
                             </div>
                         </div>
                        

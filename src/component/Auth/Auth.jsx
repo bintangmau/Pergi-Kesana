@@ -16,9 +16,9 @@ let cookieObj = new Cookie()
 class Auth extends Component {
     state = {
         page : 'LOGIN',
-        namaUser : '',
+        emailUser : '',
         passwordUser : '',
-        waktu : moment().format('ll')
+        waktu : new Date().getFullYear() + '/' + (new Date().getMonth() + 1)  + '/' + new Date().getDate()
     }
 
    
@@ -28,12 +28,11 @@ class Auth extends Component {
 
     onBtnLogin = () => {
         let userObject = {
-            username : this.state.namaUser,
+            email : this.state.emailUser,
             password : this.state.passwordUser
         }
 
         const loginHistory = {
-            histori : this.state.namaUser + ' Telah melakukan Login',
             idUser : this.state.tampungIDUser,
             idKategori : 4,
             waktu : this.state.waktu
@@ -58,8 +57,8 @@ class Auth extends Component {
                           </h1>
                           
                           <div className="text-box">
-                            <i class="fa fa-user" aria-hidden="true"></i>
-                            <input type="text" placeholder='Username' onChange={(e) => this.setState({namaUser : e.target.value})}/>
+                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                            <input type="text" placeholder='Email' onChange={(e) => this.setState({emailUser : e.target.value})}/>
                           </div>
                           <div className="text-box">
                             <i class="fa fa-unlock-alt" aria-hidden="true"></i>

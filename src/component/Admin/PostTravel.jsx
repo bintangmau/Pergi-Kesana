@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import {Link} from 'react-router-dom'
-import swal from 'sweetalert'
 import Axios from 'axios'
 import {urlApi} from '../../helper/database'
 import {connect} from 'react-redux'
 import { Redirect } from 'react-router-dom'
+import swal from 'sweetalert'
 
 class PostTravel extends Component {
     state = {
@@ -57,10 +56,10 @@ class PostTravel extends Component {
                 batasBayar : this.state.tampungBatasBayar
             }
 
-            bodyFormData.append('image', this.state.tampungGambar[0])
             bodyFormData.append('data', JSON.stringify(data))
-            var value = bodyFormData.get('data')
-            console.log(value)  
+            bodyFormData.append('image', this.state.tampungGambar[0])
+            // var value = bodyFormData.get('data')
+            // console.log(value)  
         Axios.post(urlApi + 'managetravel/posttravel', bodyFormData, options)
         .then((res) => {
             swal ('Yes', 'Travel Added succes', 'success')
@@ -85,12 +84,24 @@ class PostTravel extends Component {
     }
 
     imagePost = (e) => {
-        console.log(e.target.files)
+        // console.log(e.target.files)
         if(e.target.files[0]) {
             this.setState({ tampungGambar: e.target.files })
         } else {
             this.setState({ tampungGambar: null })
         }
+    }
+
+    buatTutupPendaftaran = () => {
+        Axios.post(urlApi + 'travel/tutuppendaftaran', { id : 100 + this.props.match.params.id, tutupDaftar: '2019/12/20', idPaket : this.props.match.params.id  })
+        .then(() => {
+            swal('Ye!', 'Event kebuat', 'success')
+            console.log(this.state.tampungTravelDetails)
+        })
+        .catch((err) => {
+            console.log(this.state.tampungTravelDetails)
+            swal('Ye!', 'Event kebuat', 'error')
+        })
     }
 
     render() {

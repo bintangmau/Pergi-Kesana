@@ -20,5 +20,14 @@ module.exports = {
     
             res.status(200).send(results)
         })
+    },
+    cariUser: (req, res) => {
+        var sql = `select * from users where username like "%${req.body.username}%" and role = "user";`
+
+        db.query(sql, (err, results) => {
+            if(err) return res.status(500).send(err)
+    
+            res.status(200).send(results)
+        })
     }
 }

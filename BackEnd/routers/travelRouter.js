@@ -13,5 +13,7 @@ router.post('/gethargaperitem', travelController.travelController.getHargaPerIte
 router.post('/daftartriphistory', travelController.travelController.daftarTripHistory)
 router.post('/getnamatravel', travelController.travelController.getNamaTravel)
 router.post('/canceltriphistory', travelController.travelController.cancelTripHistory)
+router.post('/tutuppendaftaran', travelController.travelController.tutupPendaftaran)
+router.post('/canceltripnopay', travelController.travelController.cancelTripNoPay)
 
 module.exports = router

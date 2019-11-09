@@ -21,6 +21,7 @@ class PaketWisata extends Component {
         Axios.post(urlApi + 'travel/gettravel')
         .then((res) => {
             this.setState({ tampungTravel : res.data})
+            // console.log(this.state.tampungTravel)
             // swal ('Error', 'get success', 'success')
         })
         .catch((err) => {
@@ -40,6 +41,7 @@ class PaketWisata extends Component {
             )
         })
     }
+
 
 render() {
     if(this.props.username === '') {

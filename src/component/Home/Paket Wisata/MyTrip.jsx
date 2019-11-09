@@ -4,7 +4,8 @@ import Axios from 'axios'
 import {urlApi} from '../../../helper/database'
 import {connect} from 'react-redux'
 import { Redirect, Link } from 'react-router-dom'
-import moment from 'moment'
+import Countdown from 'react-countdown-now'
+
 
 class MyTrip extends Component {
     state = {
@@ -28,7 +29,8 @@ class MyTrip extends Component {
             // console.log(res.data)
         })
         .catch((err) => {
-            swal('Yeah', 'GEt gagal disini JANCOK', 'error')
+            swal('Yeah', 'GEt gagal disini JANCOKAsu', 'error')
+            console.log(err)
         })
     }
 
@@ -44,6 +46,7 @@ class MyTrip extends Component {
         })
     }
 
+
     renderTripUser = () => {
         return this.state.tampungTripUser.map((val, idx) => {
             return (
@@ -55,9 +58,9 @@ class MyTrip extends Component {
                     <td>{val.noTelp}</td>
                     <td>{val.alamat}</td>
                     <td>
-                        {val.status} <br/>
+                        {val.statusPeserta} <br/>
                         {
-                            val.status === 'Sudah Bayar'
+                            val.statusPeserta === 'Sudah Bayar'
                             ?
                             <>
                             <input type="button" value="Show Details >>" className='btn btn-outline-success'/>
@@ -74,6 +77,22 @@ class MyTrip extends Component {
                     <td>{val.destinasi}</td>
                     <td>{val.harga}</td>
                     <td>{val.berangkat} - {val.pulang}</td>
+                    <td>
+                        {
+                            val.statusPeserta === 'Sudah Bayar'
+                            ?
+                            <>
+                            <p>Thanks!</p>       
+                            </>
+                            :
+                            <>
+                            <h5 style={{color: "red"}}>
+                                <Countdown date={Date.now() + val.hitungWaktu} onComplete={() => this.cancelTripNoPay(val.idPeserta, val.idPaket)}/>
+                            </h5>
+                            <p style={{fontWeight: "bold"}}>Segera lunasi pembayaran Anda !</p>
+                            </> 
+                        }
+                    </td>
                 </tr>
             )
         })
@@ -81,10 +100,10 @@ class MyTrip extends Component {
 
     cancelTrip = (id, idPaket) => {
         Axios.post(urlApi + 'travel/canceltrip', {id : id, idPaket : idPaket})
-        .then((res) => {
+        .then(() => {
             Axios.post(urlApi + 'travel/canceltriphistory', { histori : 'Telah membatalkan Pendaftaran Travel', idUser : this.props.id, idKategori : 6, 
                             waktuHistori : this.state.waktu })
-            .then((res) => {
+            .then(() => {
                 this.getTripUser()
                 this.getHargaTotal()
                 swal('Succes', 'Delete Success', 'success')
@@ -96,6 +115,31 @@ class MyTrip extends Component {
         .catch((err) => {
             swal('Succes', 'Delete Failed', 'error')
         })
+    }
+
+    cancelTripNoPay = (id, idPaket) => {
+        Axios.post(urlApi + 'travel/canceltripnopay', { id : id, idPaket : idPaket})
+        .then(() => {
+            Axios.post(urlApi + 'travel/canceltriphistory', { histori : 'Tidak membayar, dan Travel dibatalkan', idUser : this.props.id, idKategori : 6, 
+                            waktuHistori : this.state.waktu })
+            .then(() => {
+                this.getTripUser()
+                swal('Registration Cancelled', 'Kon seh ga bayar2!', 'warning')
+            })
+            .catch((err) => {
+                console.log(err)
+                swal('Succes', 'Post History Failed', 'error')    
+            })
+        })
+        .catch((err) => {
+            console.log(err)
+            swal('Succes', 'Delete Registration Failed', 'error')
+        })
+    }
+
+
+    hitungTimeOut = (time1) => {
+        var difference = time1 - new Date()
     }
 
     render() {
@@ -117,6 +161,7 @@ class MyTrip extends Component {
                             <th>To</th>
                             <th>Price</th>
                             <th>Date</th>
+                            <th>Hitung Waktu</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -124,6 +169,7 @@ class MyTrip extends Component {
                     </tbody>
                     <tfoot>
                         <tr>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>

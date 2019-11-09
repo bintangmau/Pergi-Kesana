@@ -65,17 +65,19 @@ module.exports = {
                 html: `
                 <center>
                     <h1>Selamat ${results[0].namaPeserta}, Anda telah terdaftar Travel kami !</h1>
-                    <p>Anda akan berangkat bersama kami menuju ${results[0].destinasi} pada tanggal ${results[0].berangkat} hingga
-                    ${results[0].pulang} , Terima kasih atas kepercayaannya ! </p>
+                    <p>Halo ${results[0].namaPeserta}, sampai berjumpa dengan kami di Bandara Soekarno-Hatta pada tanggal ${results[0].berangkat}, <br/>
+                    Kami mengarapkan kedatangan anda tepat waktu yaitu pada pukul 19.00. </p>
+                    <p>Anda akan berangkat bersama kami menuju ${results[0].destinasi}, Terima kasih atas kepercayaannya ! </p>
+                    <p>Kami akan mengirim beberapa berkas ke alamat ${results[0].alamat}.</p>
                     
-                    <h4>Salam dari Kami, Pergi-Kesana</h4>
+                    <h4>Salam hangat dari Kami, Pergi-Kesana</h4>
                 </center>
                 `
             };
             
             transporter.sendMail(mailOptions, (err, info) => {
                 if (err) throw err;
-                console.log('Email sent: ' + info.response);
+                // console.log('Email sent: ' + info.response);
                 res.status(200).send(info)
             });
             

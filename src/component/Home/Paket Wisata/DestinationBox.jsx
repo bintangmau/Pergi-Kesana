@@ -22,12 +22,16 @@ class DestinationBox extends Component {
         Axios.post(urlApi + 'travel/gettraveldetails', { id : this.props.match.params.id})
         .then((res) => {
             this.setState({ tampungTravelDetails : res.data })
+            // console.log(this.state.tampungTravelDetails[0].batasBayar)
             // swal ('Error', 'get success', 'success')
         })
         .catch((err) => {
             swal ('Error', 'get success', 'error')
         })
     }
+
+
+    
 
     renderTravelDetails = () => {
         return this.state.tampungTravelDetails.map((val, idx) => {

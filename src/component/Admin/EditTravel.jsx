@@ -140,11 +140,22 @@ class EditTravel extends Component {
     }
 
     editGambar = () => {
-        Axios.post(urlApi + 'managetravel/editgambar', { gambarNew : this.state.gambarBaru, id : this.props.match.params.id})
-        .then((res) => {
+        const bodyFormData = new FormData()
+
+        var options = {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }
+
+        bodyFormData.append('image', this.state.gambarBaru)
+
+
+        Axios.post(urlApi + 'managetravel/editgambar', { gambarNew : this.state.gambarBaru, id : this.props.match.params.id}, options)
+        .then(() => {
             swal ('Success', 'Edit success', 'success')
         })
-        .catch((err) => {
+        .catch(() => {
             swal ('Error', 'get edittravel succes', 'error')
             // console.log(this.state.destinasiBaru)
         })
@@ -221,7 +232,8 @@ class EditTravel extends Component {
                                 <input type="button" value="Edit" className='btn btn-success btn-block' onClick={this.editDeskripsi}/>
                             </td>
                             <td>
-                                <input type="text" className='form-control' placeholder={val.gambar} onChange={(e) => this.setState({ gambarBaru : e.target.value})}/>
+                                {/* <input type="text" className='form-control' placeholder={val.gambar} onChange={(e) => this.setState({ gambarBaru : e.target.value})}/> */}
+                                <input type="file" className='form-control'onChange={this.imagePost}/>
                                 <input type="button" value="Edit" className='btn btn-success btn-block' onClick={this.editGambar}/>
                             </td>
                             <td>
@@ -231,6 +243,15 @@ class EditTravel extends Component {
                         </tr>
             )
         })
+    }
+
+    imagePost = (e) => {
+        // console.log(e.target.files)
+        if(e.target.files[0]) {
+            this.setState({ gambarBaru: e.target.files })
+        } else {
+            this.setState({ gambarBaru: null })
+        }
     }
     
     render() {

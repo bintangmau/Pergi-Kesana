@@ -111,62 +111,95 @@ return (
        </div>
         {
             this.props.userObj.username !== '' && this.props.userObj.role !== ''
-            ?   
-              <ul className='nav-links'>        
-                <Link to='/'>
-                    <li>
-                    <a href="">Home</a>
-                    </li>
-                </Link>
-                <Link>
-                <li>
-                    <a href="#">{this.props.userObj.username}</a>
-                </li>
-                </Link>
-                <Link>
-                <li>
-                    <a href="#">{this.props.userObj.role}</a>
-                </li>
-                </Link>
-                {this.props.userObj.role === 'user'
-                ?
-                <>
-                    <Link to='/mytrip'>
-                        <a>My Trip</a>        
+            ? 
+            <> 
+            <div className="row" style={{width: "600px"}}>
+                <div className="col-md-3">
+                    <Link to='/'>
+                        <button  className='btn btn-outline-dark btn-block'>
+                            <p style={{color: "white", margin: "10px"}}>Home</p>
+                        </button>
                     </Link>
-                </>
-                :
-                null
-                }
-                <Link>
-                <li>
-                    <a href="#breakingnews">News</a>
-                </li>
-                </Link>
-                <Link>
-                    <li onClick={this.logOut}>
-                        <a>Log Out</a>
-                    </li>
-                </Link>
-
-           </ul>
+                </div>
+                <div className="col-md-3">
+                    {this.props.userObj.role === 'user'
+                    ?
+                    <>
+                        <Link to='/mytrip'>
+                            <button  className='btn btn-outline-dark btn-block'> 
+                                <p style={{color: "white", margin: "10px"}}>My Trip</p>
+                            </button>        
+                        </Link>
+                    </>
+                    :
+                    null
+                    }
+                </div>
+                <div className="col-md-3">
+                    <Link to='/soal'>
+                        <button  className='btn btn-outline-dark btn-block'>
+                            <p style={{color: "white", margin: "10px"}}>Ask</p>
+                        </button>
+                    </Link>
+                </div>
+                <div className="col-md-3">
+                    <Link to='/history'>
+                        <button  className='btn btn-outline-dark btn-block'>
+                            <p style={{color: "white", margin: "10px"}}>Activity</p>
+                        </button>
+                    </Link>
+                </div>
+            </div>
+            <div>
+                <div className="row" style={{width: "300px"}}>
+                    <div className="col-md-6">
+                        <Link to={`/topup/${this.props.userObj.id}`}>
+                            <button className='btn btn-success'>
+                                <p style={{margin: "10px"}}>Top Up</p>
+                            </button>
+                        </Link>
+                    </div>
+                    <div className="col-md-6">
+                        <button onClick={this.logOut} className='btn btn-danger'>
+                            <p style={{color: "black", margin: "10px"}}>Keluar</p>
+                        </button>
+                    </div>
+                </div>
+               
+            </div>
+            </>
            :
            <>
-           <ul className='nav-links'>
+           <div className="row" style={{width: "600px"}}>
+           
+               <div className="col-md-3">
                 <Link to='/'>
-                    <li>
-                    <a href="">Home</a>
-                    </li>
+                    <button className='btn btn-outline-dark btn-block'>
+                      <p style={{color: "white", margin: "10px"}}>Home</p>
+                    </button>
                 </Link>
+               </div>
+               <div className="col-md-3">
                 <Link to='/auth'>
-                <li>
-                    <a href="#">Sign In</a>
-                </li>
+                    <button className='btn btn-outline-dark btn-block'>
+                    <p style={{color: "white", margin: "10px"}}>Sign-In</p>
+                    </button>
                 </Link>
-                <li>
-                    <a href="#">About Us</a>
-                </li>
-           </ul>
+               </div>
+               <div className="col-md-6">
+                <Link to='/aboutus'>
+                    <button className='btn btn-outline-dark btn-block'>
+                    <p style={{color: "white", margin: "10px"}}>About Us</p>
+                    </button>
+                </Link>
+               </div>
+              
+           </div>
+          
+                
+                
+                
+          
           </>
         } 
           
@@ -182,6 +215,7 @@ return (
 );
 }
 }
+
 const mapStateToProps = (state) => {
     return {
         userObj : state.user

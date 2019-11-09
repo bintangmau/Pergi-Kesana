@@ -3,7 +3,7 @@ import './Auth.css'
 import {Link} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {registerUser} from '../../redux/actions/userAction'
-import moment from 'moment'
+import swal from 'sweetalert'
 
 class Register extends Component {
     state = {
@@ -11,26 +11,26 @@ class Register extends Component {
       RegisterEmail : '',
       registerPassword : '',
       role : 'user',
-      waktu : moment().format('ll')
+      waktu : new Date().getFullYear() + '/' + (new Date().getMonth() + 1)  + '/' + new Date().getDate()
     }
 
     registerBtn = () => {
-      let registerScs = {
-        username : this.state.registerName,
-        email : this.state.registerEmail,
-        password : this.state.registerPassword,
-        role : this.state.role,
-        status : 'Unverified',
-      }
-
-      const registerHistory = {
-        histori : this.state.registerName + ' Telah Melakukan Registrasi',
-        idUser : 0,
-        idKategori : 3,
-        waktuHistori : this.state.waktu
-      }
-      // alert(this.state.registerName)
-      this.props.registerUser(registerScs, registerHistory)
+        let registerScs = {
+          username : this.state.registerName,
+          email : this.state.registerEmail,
+          password : this.state.registerPassword,
+          role : this.state.role,
+          status : 'Unverified',
+        }
+  
+        const registerHistory = {
+          histori : this.state.registerName + ' Telah Melakukan Registrasi',
+          idUser : 0,
+          idKategori : 3,
+          waktuHistori : this.state.waktu
+        }
+        // alert(this.state.registerName)
+        this.props.registerUser(registerScs, registerHistory)
     }
 
     render() {

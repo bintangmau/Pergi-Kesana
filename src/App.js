@@ -3,9 +3,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import Navbar from './component/Navbar/Navbar'
 import {Switch, Route, withRouter} from 'react-router-dom'
-import Destinasi from './component/Destinasi'
 import Masjid from './component/Home/Masjid/Masjid'
-import Guide from './component/Guide'
 import Home from './component//Home/Home'
 import Register from './component/Auth/Register'
 import '../node_modules/font-awesome/css/font-awesome.min.css';
@@ -40,6 +38,8 @@ import RegistrasiTravel from './component/Admin/RegistrasiTravel'
 import PembatalanTravel from './component/Admin/PembatalanTravel'
 import Pemasukan from './component/Admin/Pemasukan'
 import TransaksiBerhasil from './component/Admin/TransaksiBerhasil'
+import AboutUs from './component/Navbar/AboutUs'
+import Tiket from './component/Home/Tiket'
 
 let cookieObj = new Cookie()
 
@@ -62,9 +62,7 @@ render(){
      <Switch>
         <Route path = '/' component={Home} exact/>
         <Route path = '/auth' component={Auth} exact/>
-        <Route path = '/destinasi' component={Destinasi} exact/>
         <Route path = '/masjid' component={Masjid} exact/>
-        <Route path = '/guide' component={Guide} exact/>
         <Route path = '/register' component={Register} exact/>
         <Route path = '/paketwisata' component={PaketWisata} exact/>
         <Route path = '/destinationbox/:id' component={DestinationBox} exact/>
@@ -93,8 +91,8 @@ render(){
         <Route path = '/pembatalantravel' component={PembatalanTravel} exact/>
         <Route path = '/pemasukan' component={Pemasukan} exact/>
         <Route path = '/transaksiberhasil' component={TransaksiBerhasil} exact/>
-
-        
+        <Route path = '/aboutus' component={AboutUs} exact/>
+        <Route path = '/tiket' component={Tiket} exact/>
         
      </Switch>
    </div>

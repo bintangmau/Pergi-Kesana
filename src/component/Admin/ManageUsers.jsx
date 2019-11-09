@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { urlApi } from '../../helper/database';
 import swal from 'sweetalert'
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 import moment from 'moment'
 
 class ManageUsers extends Component {
     state = {
         tampungManageUsers: [],
-        waktu: moment().format('ll')
+        waktu: moment().format('ll'),
+        tampilPencarian: false,
+        inputPencarian: '',
+        tampungHasilPencarian: []
     }
 
     componentDidMount() {
@@ -69,13 +71,62 @@ class ManageUsers extends Component {
             }
     }
 
+    cariUser = () => {
+        Axios.post(urlApi + 'manageuser/cariuser', { username : this.state.inputPencarian })
+        .then((res) => {
+            this.setState({ tampungHasilPencarian: res.data })
+            if(this.state.tampungHasilPencarian.length === 0) {
+                swal('Ye!', 'User belum terdaftar', 'warning')
+            } 
+        })
+        .catch((err) => {
+            console.log(err)
+            swal('Ups', 'Pencarian gagal!', 'error')
+        })
+    }
+
+    renderHasilCari = () => {
+        return this.state.tampungHasilPencarian.map((val) => {
+            return (
+                <tr>
+                    <td>{val.username}</td>
+                    <td>{val.email}</td>
+                    <td>{val.status}</td>
+                    <td><input type="button" value="Delete" className='btn btn-danger' onClick={() => this.deleteUsers(val.id, val.username)}/></td>
+                </tr>
+            )
+        })
+    }
+
     render() {
-        if(this.props.username === '') {
-            return <Redirect to='/'/>
-          }
+        // if(this.props.username === '') {
+        //     return <Redirect to='/'/>
+        //   }
         return (
             <div>
                 <h1 style={{textAlign: "center", marginTop: "35px"}}>manageuser</h1>
+                <div style={{width: "300px", float: "right"}}>
+                    <input type="button" value="Search" className='btn btn-outline-warning' style={{margin: "20px"}} onClick={() => this.setState({ tampilPencarian : true})}/>
+                    <input type="button" value="Back" className='btn btn-outline-dark' style={{margin: "20px"}} onClick={() => this.setState({ tampilPencarian: false})}/> <br />
+                </div>
+                {
+                    this.state.tampilPencarian === false
+                    ?
+                    null
+                    :
+                    <>
+                    <div className="row" style={{float: "left"}}>
+                        <div className="col-md-9">
+                            <input type="text" className='form-control' style={{margin: "20px"}} onChange={(e) => this.setState({ inputPencarian : e.target.value })}/>
+                        </div>
+                        <div className="col-md-3">
+                            <input type="button" value="Cari" className='btn btn-outline-warning' style={{margin: "20px"}} onClick={this.cariUser}/>
+                        </div>
+                    </div>
+                    </>
+                }
+
+
                 <table className='table' style={{marginTop: "35px"}}>
                     <thead className='thead-dark'>
                             <tr style={{textAlign: "center"}}>
@@ -86,7 +137,17 @@ class ManageUsers extends Component {
                             </tr>
                     </thead>
                     <tbody>
-                        {this.renderManageUser()}
+                        {
+                            this.state.tampilPencarian === false
+                            ?
+                            <>
+                            {this.renderManageUser()}
+                            </>
+                            :
+                            <>
+                            {this.renderHasilCari()} 
+                            </>
+                        }
                     </tbody>
                 </table>
             </div>

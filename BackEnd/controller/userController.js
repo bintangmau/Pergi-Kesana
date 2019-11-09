@@ -1,20 +1,31 @@
 const { db } = require('../database')
+const crypto = require('crypto')
+
+const secret = 'pergikesana'
 
 module.exports = {
     userLogin : (req, res) => {
-        var sql = `SELECT * FROM users WHERE username = '${req.body.username}' AND password = '${req.body.password}'`
+        req.body.password = crypto.createHmac('sha256', secret)
+                            .update(req.body.password)
+                            .digest('hex');
+
+        var sql = `SELECT * FROM users WHERE email = '${req.body.email}' AND password = '${req.body.password}'`
 
         db.query(sql, (err, results) => {
-            // console.log(req.body)
             if(err) return res.status(500).send(err)
     
             res.status(200).send(results)
         })
     },
     userRegister: (req, res) => {
+        req.body.password = crypto.createHmac('sha256', secret)
+                            .update(req.body.password)
+                            .digest('hex');
+
         var sql =`SELECT * FROM users WHERE email = '${req.body.email}'`
 
         var sql2 = `INSERT INTO users SET ?`
+
 
         db.query(sql, (err, results) => {
             // console.log(req.body.email)

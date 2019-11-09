@@ -5,7 +5,7 @@ import swal from 'sweetalert'
 export const userLogin = (userObj, loginhistory) => { // FUNCTION LOGIN
     return(dispatch) => {
 
-    Axios.post(urlApi + 'user/login',{ username : userObj.username, password : userObj.password })
+    Axios.post(urlApi + 'user/login', { email : userObj.email, password : userObj.password })
     .then((res) => {  //then untuk pengkondisian if,,
         if(res.data.length > 0){   //jika dalam database ada maka ia melakukan then
             dispatch({
@@ -13,13 +13,14 @@ export const userLogin = (userObj, loginhistory) => { // FUNCTION LOGIN
                 payload : {
                     username : res.data[0].username, // yg kanan hrus sama dengan db.json
                     role : res.data[0].role,
-                    id : res.data[0].id,
+                    email : res.data[0].email,
+                    id : res.data[0].id
                 }
             })
             if(res.data[0].role === 'admin'){
                 swal('Welcome!', 'Selamat datang ' + res.data[0].username, 'success')
             } else {
-                Axios.post(urlApi + 'user/loginhistory', { histori : loginhistory.histori, idUser : res.data[0].id, 
+                Axios.post(urlApi + 'user/loginhistory', { histori : res.data[0].username + ' Telah melakukan Login', idUser : res.data[0].id, 
                     idKategori : loginhistory.idKategori, waktuHistori : loginhistory.waktu})
                 .then((res) => {
                     swal('Welcome!', 'Selamat datang ' + res.data[0].username, 'success')
@@ -30,6 +31,7 @@ export const userLogin = (userObj, loginhistory) => { // FUNCTION LOGIN
             }
         }
         else {
+            console.log(res.data)
             swal ('Error', 'Username/Password is wrong!', 'error')
         }
     })
@@ -50,30 +52,37 @@ export const resetUser = () => { //FUNCTION LOGOUT
 
 
 export const registerUser = (registerObj, registerhistory) => { //parameter dr function ini adalah inputan = registerObj
-    return (dispatch) => {
-
-                Axios.post(urlApi + 'user/register', registerObj) //registerObj berisi inputan
-                .then((res) => {
-                    // dispatch ({
-                    //     type : 'LOGIN',
-                    //     payload : {
-                    //         username : res.data.username, //dari inputan register
-                    //         password : res.data.password, 
-                    //         role : res.data.role  
-                    //     }
-                    // })
-                    Axios.post(urlApi + 'user/registerhistory', {histori : registerhistory.histori, idUser : registerhistory.idUser, 
-                                                            idKategori : registerhistory.idKategori, waktuHistori : registerhistory.waktuHistori})
-                    .then((res) => {
-                        swal ('Yeah', 'Register success!', 'success')
-                    })
-                    .catch((err) => {
-                        swal ('Error', 'Something is wrong ( History )!', 'error')    
-                    })
-                })
-                .catch((err) => {
-                    swal ('Error', 'Something is wrong!', 'error')
-                })
+    return () => {
+                if(registerObj.username === '') {
+                    swal('Ups!', 'Input username!', 'warning')
+                } else if(registerObj.email === '') {
+                    swal('Ups!', 'Input email!', 'warning')
+                } else if (registerObj.password === '') {
+                    swal('Ups!', 'Input password!', 'warning')
+                } else {
+                        Axios.post(urlApi + 'user/register', registerObj) //registerObj berisi inputan
+                        .then((res) => {
+                            // dispatch ({
+                            //     type : 'LOGIN',
+                            //     payload : {
+                            //         username : res.data.username, //dari inputan register
+                            //         password : res.data.password, 
+                            //         role : res.data.role  
+                            //     }
+                            // })
+                            Axios.post(urlApi + 'user/registerhistory', {histori : registerhistory.histori, idUser : registerhistory.idUser, 
+                                                                    idKategori : registerhistory.idKategori, waktuHistori : registerhistory.waktuHistori})
+                            .then((res) => {
+                                swal ('Yeah', 'Register success!', 'success')
+                            })
+                            .catch((err) => {
+                                swal ('Error', 'Something is wrong ( History )!', 'error')    
+                            })
+                        })
+                        .catch((err) => {
+                            swal ('Ups!', 'Email used!', 'warning')
+                        })
+                    }
                 }
             }
 

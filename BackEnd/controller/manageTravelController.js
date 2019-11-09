@@ -25,7 +25,7 @@ module.exports = {
         const { image } = req.files //
         console.log(image)
 
-        console.log(req.body.data)
+        console.log(req.body)
         const data = JSON.parse(req.body.data) //setelah menerima JSON, diparse menjadi object biasa lagi, lalu ditampung dalam constdata
         console.log(data)
 
