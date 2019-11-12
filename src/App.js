@@ -40,6 +40,10 @@ import Pemasukan from './component/Admin/Pemasukan'
 import TransaksiBerhasil from './component/Admin/TransaksiBerhasil'
 import AboutUs from './component/Navbar/AboutUs'
 import Tiket from './component/Home/Tiket'
+import ManageTicket from './component/Admin/ManageTicket'
+import PostTicket from './component/Admin/PostTicket'
+import EditTicket from './component/Admin/EditTicket'
+import TiketDetails from './component/Home/TiketDetails'
 
 let cookieObj = new Cookie()
 
@@ -47,10 +51,12 @@ let cookieObj = new Cookie()
 class App extends React.Component {
 
   componentDidMount(){
-    let cookieVar = cookieObj.get('userData')
-    if(cookieVar){
-      this.props.keepLogin(cookieVar)
-    }
+    // let cookieVar = cookieObj.get('userData')
+    // if(cookieVar){
+    //   this.props.keepLogin(cookieVar)
+    // }
+    var keepLogin = localStorage.getItem('data')
+    this.props.keepLogin(keepLogin)
   }
   
 
@@ -93,6 +99,10 @@ render(){
         <Route path = '/transaksiberhasil' component={TransaksiBerhasil} exact/>
         <Route path = '/aboutus' component={AboutUs} exact/>
         <Route path = '/tiket' component={Tiket} exact/>
+        <Route path = '/managetiket' component={ManageTicket} exact/>
+        <Route path = '/posttiket' component={PostTicket} exact/>
+        <Route path = '/edittiket/:id' component={EditTicket} exact/>
+        <Route path = '/tiketdetails/:id' component={TiketDetails} exact/>
         
      </Switch>
    </div>

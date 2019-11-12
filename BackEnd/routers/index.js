@@ -9,6 +9,7 @@ const saldoUserRouter = require('./saldoUserRouter')
 const historyRouter = require('./historyRouter')
 const analisaRouter = require('./analisaRouter')
 const paymentRouter = require('./paymentRouter')
+const tiketRouter = require('./tiketRouter')
 
 module.exports = {
     userRouter,
@@ -21,5 +22,6 @@ module.exports = {
     saldoUserRouter,
     historyRouter,
     analisaRouter,
-    paymentRouter
+    paymentRouter,
+    tiketRouter
 }

@@ -76,7 +76,7 @@ class ManageUsers extends Component {
         .then((res) => {
             this.setState({ tampungHasilPencarian: res.data })
             if(this.state.tampungHasilPencarian.length === 0) {
-                swal('Ye!', 'User belum terdaftar', 'warning')
+                swal('Ye!', 'User tidak ditemukan !', 'warning')
             } 
         })
         .catch((err) => {
@@ -99,9 +99,9 @@ class ManageUsers extends Component {
     }
 
     render() {
-        // if(this.props.username === '') {
-        //     return <Redirect to='/'/>
-        //   }
+        if(this.props.username === '') {
+            return <Redirect to='/'/>
+          }
         return (
             <div>
                 <h1 style={{textAlign: "center", marginTop: "35px"}}>manageuser</h1>

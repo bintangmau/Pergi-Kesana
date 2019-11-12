@@ -9,6 +9,7 @@ const saldoUserController = require('./saldoUserController')
 const historyController = require('./historyController')
 const analisaController = require('./analisaController')
 const paymentController = require('./paymentController')
+const tiketController = require('./tiketController')
 
 module.exports = {
     userController,
@@ -21,5 +22,6 @@ module.exports = {
     saldoUserController,
     historyController,
     analisaController,
-    paymentController
+    paymentController,
+    tiketController
 }

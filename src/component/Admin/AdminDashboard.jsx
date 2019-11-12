@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Axios from 'axios'
 import { Link } from 'react-router-dom'
 import { Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -33,6 +32,9 @@ class AdminDashboard extends Component {
                         </div>
                         <div className="col-md-3" style={{marginTop: "35px"}}>
                             <Link to='/pemasukan'><input type="button" value="Income" className='btn btn-outline-dark btn-block' style={{height: "200px"}}/></Link>
+                        </div>
+                        <div className="col-md-3" style={{marginTop: "35px"}}>
+                            <Link to='/managetiket'><input type="button" value="Manage Ticket" className='btn btn-outline-dark btn-block' style={{height: "200px"}}/></Link>
                         </div>
                     </div>
                     

@@ -78,7 +78,6 @@ class TopUp extends Component {
                     <>
                     <div>
                         <center>
-                            <p>Buka dompet langsung bonus saldo 100 USD</p>
                             <button className='btn btn-outline-success' onClick={this.bukaDompet}>
                                 Buka Dompet Sebagai {this.props.username} ? 
                             </button>

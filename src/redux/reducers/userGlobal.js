@@ -17,7 +17,7 @@ export default (state = INITIAL_STATE, action) => {
         case 'USER_UDA_ADA' :
             return {...INITIAL_STATE, msg : action.hasil}
         case 'KEEP_LOGIN' :
-            return {...INITIAL_STATE, username : action.payload.username, id : action.payload.id, role : action.payload.role, cookie : true}
+            return {...INITIAL_STATE, username : action.payload.username, id : action.payload.id, role : action.payload.role, cookie : true, email : action.payload.email }
             default : 
         return state
     }

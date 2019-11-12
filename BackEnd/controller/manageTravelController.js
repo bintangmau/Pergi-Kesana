@@ -17,18 +17,21 @@ module.exports = {
         const upload = uploader(path, 'TRAVEL').fields([{name: 'image'}])
 
         upload(req, res, (err) => {
+
             if(err) {
+                
                 return res.status(500).json({ message: 'Upload image failed !', error: err.message })
             }
-        })
+        
 
         const { image } = req.files //
-        console.log(image)
+        
 
-        console.log(req.body)
-        const data = JSON.parse(req.body.data) //setelah menerima JSON, diparse menjadi object biasa lagi, lalu ditampung dalam constdata
-        console.log(data)
-
+    
+        const data = JSON.parse(req.body.data)
+         //setelah menerima JSON, diparse menjadi object biasa lagi, lalu ditampung dalam constdata
+        data.status = "Buka"
+    
         data.gambar = `${path}/${image[0].filename}` //fv
 
         var sql = `INSERT INTO paketwisata SET ?`
@@ -37,11 +40,13 @@ module.exports = {
             // console.log(req.body , ' ini body')
             // console.log(req.file , ' ini file')
             if(err) {
+                console.log(err)
                 // fs.unlinkSync('./public' + path + '/' + gambar[0].filename)
                 return res.status(500).send(err)
             } 
             res.status(200).send(results)
         })
+    })
     },
     deleteTravel: (req, res) => {
         var sql = `DELETE FROM paketwisata WHERE id = ${req.body.id}`

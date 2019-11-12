@@ -39,7 +39,7 @@ class DestinationBox extends Component {
                 <div className='container'>
                     <div className="row">
                         <div className="col-md-3">
-                            <img src={val.gambar} style={{width: "100%",height: "250px",borderRadius: "50%"}}/>
+                            <img src={urlApi + val.gambar} style={{width: "100%",height: "250px",borderRadius: "50%"}}/>
                         </div>
                         <div className="col-md-9" style={{padding: "20px"}}>
                             <h2 style={{fontWeight: "bold"}}>{val.destinasi}</h2>

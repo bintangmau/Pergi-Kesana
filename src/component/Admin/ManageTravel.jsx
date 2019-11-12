@@ -77,10 +77,10 @@ class ManageTravel extends Component {
                         <p>{val.kuota} Available Seat</p>
                         <Link to={`/progresstrip/${val.id}`}><input type="button" value="On Progress" className='btn btn-outline-secondary'/></Link>
                         <div className="row">
-                            <div className="col-md-2">
-                                <p style={{marginTop: "10px"}}>Ticket: </p>
+                            <div className="col-md-3">
+                                <p style={{marginTop: "10px"}}>Ticket Stock: </p>
                             </div>
-                            <div className="col-md-9">
+                            <div className="col-md-8">
                                 <div className="progress" style={{marginTop: "15px"}}>
                                     <div className="progress-bar bg-info" role="progressbar" style={{ width: `${val.kuota}%`}} aria-valuenow={`${val.kuota}`} aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>                       

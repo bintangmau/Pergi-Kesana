@@ -39,7 +39,7 @@ module.exports = {
     },
     getTripUser: (req, res) => {
         var sql = `SELECT p.id as idPeserta, namaPeserta, usiaPeserta, p.status as statusPeserta, idPaket, noPaspor, alamat, noTelp, pw.destinasi, pw.harga,
-                    pw.berangkat, pw.pulang, timestampdiff(minute, now(), timeout) * 1000 as hitungWaktu
+                    pw.berangkat, pw.pulang, p.timeout, timestampdiff(minute, now(), timeout) * 1000 as hitungWaktu
                     FROM peserta p
                     JOIN paketwisata pw
                     on p.idPaket = pw.id

@@ -153,11 +153,18 @@ return (
             <div>
                 <div className="row" style={{width: "300px"}}>
                     <div className="col-md-6">
-                        <Link to={`/topup/${this.props.userObj.id}`}>
-                            <button className='btn btn-success'>
-                                <p style={{margin: "10px"}}>Top Up</p>
-                            </button>
-                        </Link>
+                        {
+                            this.props.userObj.role === "user"
+                            ?
+                            <Link to={`/topup/${this.props.userObj.id}`}>
+                                <button className='btn btn-success'>
+                                    <p style={{margin: "10px"}}>Top Up</p>
+                                </button>
+                            </Link>
+                            :
+                            null
+                        }
+                       
                     </div>
                     <div className="col-md-6">
                         <button onClick={this.logOut} className='btn btn-danger'>

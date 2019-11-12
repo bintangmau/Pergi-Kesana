@@ -22,11 +22,13 @@ export const userLogin = (userObj, loginhistory) => { // FUNCTION LOGIN
             } else {
                 Axios.post(urlApi + 'user/loginhistory', { histori : res.data[0].username + ' Telah melakukan Login', idUser : res.data[0].id, 
                     idKategori : loginhistory.idKategori, waktuHistori : loginhistory.waktu})
-                .then((res) => {
-                    swal('Welcome!', 'Selamat datang ' + res.data[0].username, 'success')
+                .then(() => {
+                    localStorage.setItem('data', res.data[0].email)
+                    swal('Welcome!', 'Selamat datang ' + res.data[0].username , 'success')
                 })
                 .catch((err) => {
-                    swal ('Ye!', 'Login Success !', 'success')
+                    console.log(err)
+                    swal ('Ye!', 'Login Failed !', 'error')
                 })
             }
         }
@@ -87,18 +89,18 @@ export const registerUser = (registerObj, registerhistory) => { //parameter dr f
             }
 
 
-export const keepLogin = (cookieData) => {
+export const keepLogin = (emailUser) => {
     return(dispatch) => {
-        Axios.get(urlApi + 'users',{
-            params : {
-                username : cookieData
-            }
+        Axios.get(urlApi + 'user/keeplogin', {
+            email : emailUser
             })
             .then((res) => {
+                console.log(res.data[0])
                 dispatch({
                     type : 'KEEP_LOGIN',
                     payload : {
                         username : res.data[0].username,
+                        email : res.data[0].email,
                         role : res.data[0].role,
                         id : res.data[0].id
                     }

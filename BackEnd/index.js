@@ -10,7 +10,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
 
 const { userRouter, manageUserRouter, travelRouter, manageTravelRouter, tanyaJawabRouter, manageFoodRouter, foodRouter, saldoUserRouter, historyRouter
-, analisaRouter, paymentRouter } = require('./routers')
+, analisaRouter, paymentRouter, tiketRouter } = require('./routers')
 
 app.use('/user', userRouter)    
 app.use('/manageuser',manageUserRouter)
@@ -23,5 +23,6 @@ app.use('/saldouser', saldoUserRouter)
 app.use('/history', historyRouter)
 app.use('/analisa', analisaRouter)
 app.use('/payment', paymentRouter)
+app.use('/tiket', tiketRouter)
 
 app.listen(port, () => console.log('API aktif di port ' + port))

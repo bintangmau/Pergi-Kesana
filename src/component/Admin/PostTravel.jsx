@@ -55,11 +55,10 @@ class PostTravel extends Component {
                 deskripsi : this.state.tampungDeskripsi,
                 batasBayar : this.state.tampungBatasBayar
             }
-
+            console.log(this.state.tampungGambar)
             bodyFormData.append('data', JSON.stringify(data))
             bodyFormData.append('image', this.state.tampungGambar[0])
-            // var value = bodyFormData.get('data')
-            // console.log(value)  
+
         Axios.post(urlApi + 'managetravel/posttravel', bodyFormData, options)
         .then((res) => {
             swal ('Yes', 'Travel Added succes', 'success')
@@ -79,7 +78,7 @@ class PostTravel extends Component {
         })
         .catch((err) => {
             swal ('Error', 'Add failed', 'error')
-            console.log(this.state.tampungGambar)
+            console.log(err)
         })
     }
 
@@ -105,9 +104,9 @@ class PostTravel extends Component {
     }
 
     render() {
-        if(this.props.username === '') {
-            return <Redirect to='/'/>
-          }
+        // if(this.props.username === '') {
+        //     return <Redirect to='/'/>
+        //   }
         return (
             <div>
                 <h1 style={{marginTop: "35px", textAlign: "center"}}>Post travel</h1>

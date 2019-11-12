@@ -9,5 +9,6 @@ router.post('/tambahsaldoadmin', paymentController.paymentController.tambahSaldo
 router.post('/gantistatusbayar', paymentController.paymentController.gantiStatusBayar)
 router.post('/historikesanapay', paymentController.paymentController.historiKesanaPay)
 router.post('/kirimemailuser', paymentController.paymentController.kirimEmailUser)
+router.post('/paymenttiket', paymentController.paymentController.paymentTicket)
 
 module.exports = router
