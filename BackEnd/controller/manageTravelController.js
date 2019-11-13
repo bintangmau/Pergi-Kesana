@@ -35,8 +35,7 @@ module.exports = {
         db.query(sql, data, (err, results) => {
             // console.log(req.body , ' ini body')
             // console.log(req.file , ' ini file')
-            console.log(results.insertId)
-            console.log(err)
+           
             if(err) {
                 // fs.unlinkSync('./public' + path + '/' + gambar[0].filename)
                 return res.status(500).send(err)

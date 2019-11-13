@@ -18,12 +18,15 @@ class Payment extends Component {
         outPayment: false,
         loadingPayment: false,
         tampungEditEmail: '',
-        correctEmail: false
+        correctEmail: false,
+        buktiTransfer: '',
+        simpanIDpaket: 0
     }
 
     componentDidMount() {
         this.getHargaPerItem()
         this.getSaldoUser()
+        this.getIDpaket()
     }
 
     getHargaPerItem = () => {
@@ -73,7 +76,7 @@ class Payment extends Component {
                             waktuHistori: this.state.waktu
                         })
                         .then(() => {
-                            Axios.post(urlApi + 'payment/kirimemailuser', { idPaket: this.props.match.params.id })
+                            Axios.post(urlApi + 'payment/kirimemailuser', { idPeserta: this.props.match.params.id })
                             .then(() => {
                                 this.setState({ outPayment : true, loadingPayment: false })
                                 swal('Congrats', 'Transaksi Berhasil', 'success')
@@ -106,20 +109,72 @@ class Payment extends Component {
         }
     }
 
-    correctEmail = () => {
-        Axios.post(urlApi + `user/editdatauser/${this.props.id}`, { email: this.state.tampungEditEmail })
-        .then(() => {
-            swal('Ye', 'Edit success', 'success')
+    
+    imagePost = (e) => {
+        // console.log(e.target.files)
+        if(e.target.files[0]) {
+            this.setState({ buktiTransfer: e.target.files })
+        } else {
+            this.setState({ buktiTransfer: null })
+        }
+    }
+
+    getIDpaket = () => {    
+        Axios.get(urlApi + 'payment/getidpaket/' + this.props.match.params.id)
+        .then((res) => {
+            this.setState({ simpanIDpaket: res.data[0].idPaket})
         })
-        .catch(() => {
-            swal('Ups', 'Edit failed', 'error')
+        .catch((err) => {
+            console.log(err)
+            swal('get gabisa', 'ups', 'error')
         })
     }
 
-    render() {
-        if(this.props.id === 0 || this.state.outPayment === true) {
-            return <Redirect to='/'/>
+    uploadBuktiTf = () => {
+        const bodyFormData = new FormData()
+
+        var options = {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
         }
+
+        var data = {
+            idUser:  this.props.id,
+            idPaket: this.state.simpanIDpaket,
+        }
+
+        bodyFormData.append('data', JSON.stringify(data))
+        bodyFormData.append('image', this.state.buktiTransfer[0])
+
+        Axios.post(urlApi + 'payment/buktitransfer', bodyFormData, options)
+        .then(() => {
+           Axios.post(urlApi + 'payment/atmpayment', { 
+               saldoAdmin: this.state.tampungHargaPerItem, 
+               idUser: this.props.id, 
+               waktuPemasukan: this.state.waktu, 
+               idPeserta: this.props.match.params.id 
+            })
+           .then(() => {
+               swal('Saldo admin masuk', `${ this.state.tampungHargaPerItem}`, 'success')
+           })
+           .catch((err) => {
+               console.log(err)
+               swal('Ups', 'Saldoadmin gamasuk', 'error')
+           })
+        })
+        .catch((err) => {
+            console.log(this.state.buktiTransfer[0])
+            swal('Ups', 'Upload bukti TF gagal', 'error')
+        })
+    }
+
+
+
+    render() {
+        // if(this.props.id === 0 || this.state.outPayment === true) {
+        //     return <Redirect to='/'/>
+        // }
         return (
             <div>
                  <h1 style={{textAlign: "center", marginTop: "35px"}}>Payment</h1>
@@ -147,7 +202,18 @@ class Payment extends Component {
                         this.state.tampilMethod === true 
                         ?<>
                         <div>
-                            <h1>ATM</h1>
+                            <h2 style={{marginTop: "35px", textAlign: "center"}}>ATM-Transfer Method</h2>
+                            <center>
+                                <p>Upload bukti Transer Anda, dan Tunggu konfirmasi</p>
+                                <div className='row' style={{width: "600px", marginTop: "20px"}}>
+                                    <div className="col-md-9">
+                                        <input type="file" className='form-control' onChange={this.imagePost}/>
+                                    </div>
+                                    <div className="col-md-3">
+                                        <input type="button" value="Upload" className='btn btn-success btn-block' onClick={this.uploadBuktiTf}/>
+                                    </div>
+                                </div>    
+                            </center>
                         </div>
                         </>
                         :

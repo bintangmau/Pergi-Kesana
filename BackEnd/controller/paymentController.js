@@ -1,5 +1,6 @@
 const { db } = require('../database')
 const { transporter } = require('../helpers/mailer')
+const { uploader } = require('../helpers/uploader')
 
 module.exports = {
     getSaldoUser: (req, res) => {
@@ -53,7 +54,7 @@ module.exports = {
         on pw.id = p.idPaket
         join users u 
         on u.id = p.idUser
-        where p.id = ${req.body.idPaket};`
+        where p.id = ${req.body.idPeserta};`
         
         db.query(sql, (err, results) => {
             console.log(req.body)
@@ -166,6 +167,59 @@ module.exports = {
             }
     
             
+        })
+    },
+    buktiTransfer: (req, res) => {
+        const path = '/image/travel'
+        const upload = uploader(path, 'BUKTITRANSFER').fields([{name: 'image'}])
+
+        upload(req, res, (err) => {
+            if(err) {
+                console.log(err)
+                return res.status(500).json({ message: 'Upload image failed !', error: err.message })
+            } 
+            const { image } = req.files
+
+            const data = JSON.parse(req.body.data)
+            data.buktiTF = `${path}/${image[0].filename}` 
+
+            var sql = `INSERT INTO buktitransfer SET ?`
+          
+            db.query(sql, data, (err, results) => {
+                
+                if(err) 
+                    return res.status(500).send(err)
+                    res.status(200).send(results)
+                })
+
+        })
+    },
+    atmPayment: (req, res) => {
+        var sql = `INSERT INTO saldoadmin VALUES(null, ${req.body.saldoAdmin}, ${req.body.idUser}, "${req.body.waktuPemasukan}")`
+        var sql2 = `UPDATE peserta SET status = "Menunggu Konfirmasi" WHERE id = ${req.body.idPeserta}`
+
+        db.query(sql, req.body, (err, results) => {
+            if(err) {
+                return res.status(500).send(err)
+            } else {
+                db.query(sql2, (err, results2) => {
+                    if(err) return res.status(500).send(err)
+            
+                    res.status(200).send(results2)
+                })
+            }
+        })
+    },
+    getIdpaket: (req, res) => {
+        var sql = `select pw.id as idPaket from peserta p
+                    join paketwisata pw
+                    on pw.id = p.idPaket
+                    where p.id = ${req.params.idPeserta};`
+        
+        db.query(sql, (err, results) => {
+        if(err) return res.status(500).send(err)
+
+        res.status(200).send(results)
         })
     }
 }

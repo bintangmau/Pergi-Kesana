@@ -10,5 +10,8 @@ router.post('/gantistatusbayar', paymentController.paymentController.gantiStatus
 router.post('/historikesanapay', paymentController.paymentController.historiKesanaPay)
 router.post('/kirimemailuser', paymentController.paymentController.kirimEmailUser)
 router.post('/paymenttiket', paymentController.paymentController.paymentTicket)
+router.post('/buktitransfer', paymentController.paymentController.buktiTransfer)
+router.post('/atmpayment', paymentController.paymentController.atmPayment)
+router.get('/getidpaket/:idPeserta', paymentController.paymentController.getIdpaket)
 
 module.exports = router

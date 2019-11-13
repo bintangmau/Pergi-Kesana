@@ -55,9 +55,15 @@ class Tiket extends Component {
                     <td>{val.seat}</td>
                     <td>{val.price}</td>
                     <td>
-                        <Link to={`/tiketdetails/${val.id}`}>
-                            <input type="button" value="Book" className='btn btn-success'/>
-                        </Link>
+                        {
+                            val.seat === 0
+                            ?
+                            <p style={{color: "red", fontWeight: "bold"}}>Not Available</p>
+                            :
+                            <Link to={`/tiketdetails/${val.id}`}>
+                                <input type="button" value="Book" className='btn btn-success'/>
+                            </Link>
+                        }
                     </td>
                 </tr>
             )
@@ -74,7 +80,7 @@ class Tiket extends Component {
         } else {
             Axios.post(urlApi + 'tiket/caritiket', { ke : this.state.tampungKe })
             .then((res) => {
-                this.setState({ tampungFilterTiket: res.data, tampilPencarian: true })
+                this.setState({ tampungFilterTiket: res.data, tampilPencarian: true , tampungKe: ''})
             })
             .catch((err) => {
                 console.log(err)
@@ -103,9 +109,15 @@ class Tiket extends Component {
                         <td>{val.seat}</td>
                         <td>{val.price}</td>
                         <td>  
-                            <Link to={`/tiketdetails/${val.id}`}>
-                                <input type="button" value="Book" className='btn btn-success'/>
-                            </Link>
+                            {
+                                val.seat === 0
+                                ?
+                                <p style={{color: "red", fontWeight: "bold"}}>Not Available</p>
+                                :
+                                <Link to={`/tiketdetails/${val.id}`}>
+                                    <input type="button" value="Book" className='btn btn-success'/>
+                                </Link>
+                            }
                         </td>
                     </tr>
                 )
@@ -113,9 +125,9 @@ class Tiket extends Component {
     }
 
     render() {
-        if(this.props.id === 0) {
-            return <Redirect to='/'/>
-        }
+        // if(this.props.id === 0) {
+        //     return <Redirect to='/'/>
+        // }
         return (
             <div>
                 <h2 style={{textAlign: "center", marginTop: "35px"}}>Booking Ticket</h2>
@@ -135,7 +147,7 @@ class Tiket extends Component {
                     <div style={{margin: "20px"}}>
                         <div className="row">
                             <div className="dol-md-9">
-                                <input type="text" className='form-control' placeholder="Mau Kemana ?" onChange={(e) => this.setState({ tampungKe: e.target.value })}/>
+                                <input type="text" className='form-control' placeholder="Mau Kemana ?" onChange={(e) => this.setState({ tampungKe: e.target.value })} value={this.state.tampungKe}/>
                             </div>
                             <div className="col-md-3">
                                 <input type="button" value="Cari" className='btn btn-success' onClick={this.cariTiket}/>
@@ -146,7 +158,7 @@ class Tiket extends Component {
                         this.state.tampilPencarian
                         ?
                         <div style={{ marginBottom: "20px"}}>
-                            <input type="button" value="Show All" className='btn btn-success' onClick={() => this.setState({tampilPencarian : false})}/>
+                            <input type="button" value="Show All" className='btn btn-success' onClick={() => this.setState({tampilPencarian : false, tampungFilterTiket: []})}/>
                         </div>
                         :
                         null

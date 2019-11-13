@@ -64,17 +64,23 @@ class MyTrip extends Component {
                     <td>
                         {val.statusPeserta} <br/>
                         {
-                            val.statusPeserta === 'Sudah Bayar'
+                            val.statusPeserta === 'Belum Bayar'
                             ?
-                            <>
-                            <input type="button" value="Show Details >>" className='btn btn-outline-success'/>
-                            </>
-                            :
                             <>
                             <Link to={`/payment/${val.idPeserta}`}>
                             <input type="button" value="Pay" className='btn btn-outline-secondary'/>
                             </Link> 
                             <input type="button" value="Cancel Trip" onClick={() => this.cancelTrip(val.idPeserta, val.idPaket)} className='btn btn-danger'/>
+                            </>
+                            :
+                            <>
+                            {
+                                val.statusPeserta === 'Sudah Bayar'
+                                ?
+                                <input type="button" value="Show Details >>" className='btn btn-outline-success'/>
+                                :
+                                <p>Tunggu maksimal 3 Hari Setelah pembayaran <br/>Jika belum, uang anda kembali 100%</p>
+                            }
                             </>
                         }
                     </td>
@@ -83,18 +89,27 @@ class MyTrip extends Component {
                     <td>{val.berangkat} - {val.pulang}</td>
                     <td>
                         {
-                            val.statusPeserta === 'Sudah Bayar'
+                            val.statusPeserta === 'Belum Bayar'
                             ?
-                            <>
-                            <p>Thanks!</p>       
-                            </>
-                            :
                             <>
                             <h5 style={{color: "red"}}>
                                 <Countdown date={Date.now() + val.hitungWaktu} onComplete={() => this.cancelTripNoPay(val.idPeserta, val.idPaket)}/>
                             </h5>
                             <p style={{fontWeight: "bold"}}>Segera lunasi pembayaran Anda !</p>
                             </> 
+                            :
+                            <>
+                            {
+                                val.statusPeserta === 'Sudah Bayar'
+                                ?
+                                <p>Thanks!</p>       
+                                :
+                                <>
+                                <input type="button" value="Cancel" className='btn btn-danger btn-block' onClick={() => this.cancelTrip(val.idPeserta, val.idPaket)}/>
+                                <p>Uang dikembalikan 100% ke Rek Pengirim</p>
+                                </>
+                            }
+                            </>
                         }
                     </td>
                 </tr>
@@ -103,22 +118,24 @@ class MyTrip extends Component {
     }
 
     cancelTrip = (id, idPaket) => {
-        Axios.post(urlApi + 'travel/canceltrip', {id : id, idPaket : idPaket})
-        .then(() => {
-            Axios.post(urlApi + 'travel/canceltriphistory', { histori : 'Telah membatalkan Pendaftaran Travel', idUser : this.props.id, idKategori : 6, 
-                            waktuHistori : this.state.waktu })
+        if(window.confirm('Are you Sure to Cancel this Trip ?')) {
+            Axios.post(urlApi + 'travel/canceltrip', {id : id, idPaket : idPaket})
             .then(() => {
-                this.getTripUser()
-                this.getHargaTotal()
-                swal('Succes', 'Delete Success', 'success')
+                Axios.post(urlApi + 'travel/canceltriphistory', { histori : 'Telah membatalkan Pendaftaran Travel', idUser : this.props.id, idKategori : 6, 
+                                waktuHistori : this.state.waktu })
+                .then(() => {
+                    this.getTripUser()
+                    this.getHargaTotal()
+                    swal('Succes', 'Delete Success', 'success')
+                })
+                .catch((err) => {
+                    swal('Succes', 'Delete History Failed', 'error')    
+                })
             })
             .catch((err) => {
-                swal('Succes', 'Delete History Failed', 'error')    
+                swal('Succes', 'Delete Failed', 'error')
             })
-        })
-        .catch((err) => {
-            swal('Succes', 'Delete Failed', 'error')
-        })
+        }
     }
 
     cancelTripNoPay = (id, idPaket) => {

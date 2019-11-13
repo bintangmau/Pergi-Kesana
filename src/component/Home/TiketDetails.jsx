@@ -13,7 +13,8 @@ class TiketDetails extends Component {
         waktu: new Date().getFullYear() + '/' + (new Date().getMonth() + 1)  + '/' + new Date().getDate(),
         namaPenumpang: '',
         usiaPenumpang: 0,
-        alamatPenumpang: ''
+        alamatPenumpang: '',
+        pindahTiket: false
     }
 
     componentDidMount() {
@@ -85,7 +86,7 @@ class TiketDetails extends Component {
                 loadingPayment: false
             })
             .then(() => {
-                this.setState({ loadingPayment: false })
+                this.setState({ loadingPayment: false, pindahTiket: true })
                 swal('Congrats', 'Payment Success', 'success')
             })
             .catch((err) => {
@@ -97,6 +98,9 @@ class TiketDetails extends Component {
     }
 
     render() {
+        if(this.state.pindahTiket) {
+            return <Redirect to='/tiket'/>
+        }
         if(this.props.id === 0) {
             return <Redirect to='/'/>
         }
