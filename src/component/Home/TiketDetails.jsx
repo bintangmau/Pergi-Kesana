@@ -61,6 +61,7 @@ class TiketDetails extends Component {
     }
 
     bayarTiket = () => {
+        this.setState({ loadingPayment: true })
         if(this.state.namaPenumpang === '') {
             swal('Alert!', 'Masukkan Nama!', 'warning')
         } else if(this.state.usiaPenumpang === 0) {
@@ -80,19 +81,25 @@ class TiketDetails extends Component {
                 usiaPenumpang: this.state.usiaPenumpang,
                 alamatPenumpang: this.state.alamatPenumpang,
                 idTiket: this.props.match.params.id,
-                idUser: this.props.id
+                idUser: this.props.id,
+                loadingPayment: false
             })
             .then(() => {
+                this.setState({ loadingPayment: false })
                 swal('Congrats', 'Payment Success', 'success')
             })
             .catch((err) => {
                 console.log(err)
+                this.setState({ loadingPayment: false })
                 swal('Ups!', 'Payment Failed', 'error')
             })
         }
     }
 
     render() {
+        if(this.props.id === 0) {
+            return <Redirect to='/'/>
+        }
         return (
             <div className='container'>
                 <center>
@@ -140,7 +147,15 @@ class TiketDetails extends Component {
                                 </p>
                             </div>
                             <center>
-                                <input type="button" value="Pay" className='btn btn-outline-success' onClick={this.bayarTiket}/>
+                                {
+                                    this.state.loadingPayment
+                                    ? 
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    :
+                                    <input type="button" value="Pay" className='btn btn-outline-success' onClick={this.bayarTiket}/>
+                                }
                             </center>
                         </div>
                     }

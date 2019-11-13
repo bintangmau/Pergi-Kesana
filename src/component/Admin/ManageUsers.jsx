@@ -72,17 +72,21 @@ class ManageUsers extends Component {
     }
 
     cariUser = () => {
-        Axios.post(urlApi + 'manageuser/cariuser', { username : this.state.inputPencarian })
-        .then((res) => {
-            this.setState({ tampungHasilPencarian: res.data })
-            if(this.state.tampungHasilPencarian.length === 0) {
-                swal('Ye!', 'User tidak ditemukan !', 'warning')
-            } 
-        })
-        .catch((err) => {
-            console.log(err)
-            swal('Ups', 'Pencarian gagal!', 'error')
-        })
+        if(this.state.inputPencarian === '') {
+            swal('Ups', 'Input dulu min', 'warning')
+        } else {
+            Axios.post(urlApi + 'manageuser/cariuser', { username : this.state.inputPencarian })
+            .then((res) => {
+                this.setState({ tampungHasilPencarian: res.data })
+                if(this.state.tampungHasilPencarian.length === 0) {
+                    swal('Ups!', 'User tidak ditemukan !', 'warning')
+                } 
+            })
+            .catch((err) => {
+                console.log(err)
+                swal('Ups', 'Pencarian gagal!', 'error')
+            })
+        }
     }
 
     renderHasilCari = () => {
@@ -103,11 +107,11 @@ class ManageUsers extends Component {
             return <Redirect to='/'/>
           }
         return (
-            <div>
+            <div className='container'>
                 <h1 style={{textAlign: "center", marginTop: "35px"}}>manageuser</h1>
                 <div style={{width: "300px", float: "right"}}>
                     <input type="button" value="Search" className='btn btn-outline-warning' style={{margin: "20px"}} onClick={() => this.setState({ tampilPencarian : true})}/>
-                    <input type="button" value="Back" className='btn btn-outline-dark' style={{margin: "20px"}} onClick={() => this.setState({ tampilPencarian: false})}/> <br />
+                    <input type="button" value="Show All" className='btn btn-outline-dark' style={{margin: "20px"}} onClick={() => this.setState({ tampilPencarian: false, tampungHasilPencarian : []})}/> <br />
                 </div>
                 {
                     this.state.tampilPencarian === false

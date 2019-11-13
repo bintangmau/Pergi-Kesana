@@ -113,6 +113,9 @@ class Tiket extends Component {
     }
 
     render() {
+        if(this.props.id === 0) {
+            return <Redirect to='/'/>
+        }
         return (
             <div>
                 <h2 style={{textAlign: "center", marginTop: "35px"}}>Booking Ticket</h2>
@@ -184,4 +187,10 @@ class Tiket extends Component {
     }
 }
 
-export default Tiket;
+const mapStateToProps = (state) => {
+    return {
+        id: state.user.id,
+    }
+}
+
+export default connect(mapStateToProps)(Tiket);

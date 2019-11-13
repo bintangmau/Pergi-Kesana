@@ -24,10 +24,8 @@ class Home extends Component {
     Axios.post(urlApi + 'payment/getsaldouser', { idUser : this.props.id })
     .then((res) => {
         this.setState({ tampungSaldoUser : res.data[0].saldoUser})
-        console.log(this.state.tampungSaldoUser)
     })
     .catch((err) => {
-        console.log(this.state.tampungSaldoUser)
        this.setState({ tampungSaldoUser: 0})
     })
   }

@@ -47,13 +47,17 @@ class ChatUser extends Component {
     }
 
     jawabUser = (idsual) => {
-        Axios.post(urlApi + 'tanyajawab/jawabuser', { jawaban: this.state.tampungJawaban, waktu: this.state.waktu, idSoal : idsual})
-        .then((res) => {
-            swal('Thanks', 'Wis gelem jawab', 'success')
-        })
-        .catch((err) => {
-            swal('Oops', 'Something is Wrong', 'error')
-        })
+        if(this.state.tampungJawaban === '') {
+            swal('Ups!', 'Isi Jawaban!', 'warning')
+        } else {
+            Axios.post(urlApi + 'tanyajawab/jawabuser', { jawaban: this.state.tampungJawaban, waktu: this.state.waktu, idSoal : idsual})
+            .then((res) => {
+                swal('Thanks', 'Wis gelem jawab', 'success')
+            })
+            .catch((err) => {
+                swal('Oops', 'Something is Wrong', 'error')
+            })
+        }
     }
 
     render() {  

@@ -19,7 +19,8 @@ class EditTravel extends Component {
         wisataBaru: '',
         deskripsiBaru: '',
         gambarBaru: '',
-        batasBayarBaru: ''
+        batasBayarBaru: '',
+        loadingEdit: false
     }
 
     componentDidMount() {
@@ -140,6 +141,7 @@ class EditTravel extends Component {
     }
 
     editGambar = () => {
+        this.setState({ loadingEdit: true })
         const bodyFormData = new FormData()
 
         var options = {
@@ -147,15 +149,22 @@ class EditTravel extends Component {
                 'Content-Type': 'multipart/form-data'
             }
         }
+        
+        var data = {
+            id:  this.props.match.params.id
+        }
 
-        bodyFormData.append('image', this.state.gambarBaru)
+        bodyFormData.append('data', JSON.stringify(data))
+        bodyFormData.append('image', this.state.gambarBaru[0])
 
-
-        Axios.post(urlApi + 'managetravel/editgambar', { gambarNew : this.state.gambarBaru, id : this.props.match.params.id}, options)
+        
+        Axios.post(urlApi + 'managetravel/editgambar', bodyFormData, options)
         .then(() => {
+            this.setState({loadingEdit: false})
             swal ('Success', 'Edit success', 'success')
         })
         .catch(() => {
+            this.setState({loadingEdit: false})
             swal ('Error', 'get edittravel succes', 'error')
             // console.log(this.state.destinasiBaru)
         })
@@ -234,7 +243,19 @@ class EditTravel extends Component {
                             <td>
                                 {/* <input type="text" className='form-control' placeholder={val.gambar} onChange={(e) => this.setState({ gambarBaru : e.target.value})}/> */}
                                 <input type="file" className='form-control'onChange={this.imagePost}/>
-                                <input type="button" value="Edit" className='btn btn-success btn-block' onClick={this.editGambar}/>
+                                {
+                                   this.state.loadingEdit
+                                   ?
+                                   <>
+                                   <center>
+                                        <div class="spinner-border" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                    </center>
+                                    </>
+                                    :
+                                    <input type="button" value="Edit" className='btn btn-success btn-block' onClick={this.editGambar}/>
+                               }
                             </td>
                             <td>
                             <input type="text" className='form-control' placeholder={val.batasBayar} onChange={(e) => this.setState({ batasBayarBaru : e.target.value})}/>
@@ -255,9 +276,9 @@ class EditTravel extends Component {
     }
     
     render() {
-        if(this.props.username === '') {
-            return <Redirect to='/'/>
-          }
+        // if(this.props.username === '') {
+        //     return <Redirect to='/'/>
+        //   }
         return (
             <div>
                 <h1 style={{marginTop: "35px", textAlign: "center"}}>Edit Travel</h1>

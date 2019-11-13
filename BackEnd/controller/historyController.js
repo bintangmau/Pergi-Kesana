@@ -50,5 +50,10 @@ module.exports = {
     
             res.status(200).send(results)
         })           
+    },
+    getHistoriLimit: (req, res) => {
+        var sql = `select * from histori where idKategori = 8 
+                    order by idhistori desc 
+                    limit 5;`
     }
 }

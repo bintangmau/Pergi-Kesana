@@ -11,13 +11,17 @@ class MyTrip extends Component {
     state = {
         tampungTripUser: [],
         tampungHargaTotal: 0,
-        waktu : new Date().getFullYear() + '/' + (new Date().getMonth() + 1)  + '/' + new Date().getDate()
+        waktu : new Date().getFullYear() + '/' + (new Date().getMonth() + 1)  + '/' + new Date().getDate(),
+        tripOrTiket: false,
+        tampungTiketUser: []
     }
 
     componentDidMount() {
         this.getTripUser()
         this.renderTripUser()
         this.getHargaTotal()
+        this.getMyTicket()
+        this.renderMyTicket()
     }
 
 
@@ -142,56 +146,117 @@ class MyTrip extends Component {
         var difference = time1 - new Date()
     }
 
+
+    getMyTicket = () => {
+        Axios.post(urlApi + 'tiket/getmytiket', { idUser : this.props.id })
+        .then((res) => {
+            this.setState({ tampungTiketUser: res.data })
+        })
+        .catch((err) => {
+            console.log(err)
+            swal('Ups!', 'get gagal', 'error')
+        })
+    }
+
+    renderMyTicket = () => {
+        return this.state.tampungTiketUser.map((val) => {
+            return (
+                <tr style={{textAlign: "center"}}>
+                    <td>{val.namaPenumpang}</td>
+                    <td>{val.alamatPenumpang}</td>
+                    <td>{val.maskapai} - {val.kodepesawat}</td>
+                    <td>{val.dari} - {val.ke}</td>
+                    <td>{val.berangkat} {val.time}</td>
+                    <td>{val.statusPenumpang}</td>
+                </tr>
+            )
+        })
+    }
+
     render() {
         if(this.props.id === 0) {
             return <Redirect to='/'/>
         }
         return (
             <div>
-                <h1 style={{marginTop: "35px", textAlign: "center"}}>My trip</h1>
-                <table className='table' style={{marginTop: "35px"}}>
-                    <thead className='thead-dark'>
-                        <tr style={{textAlign: "center"}}>
-                            <th>Name</th>
-                            <th>Age</th>
-                            <th>Passport</th>
-                            <th>Phone</th>
-                            <th>Address</th>
-                            <th>Status</th>
-                            <th>To</th>
-                            <th>Price</th>
-                            <th>Date</th>
-                            <th>Hitung Waktu</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.renderTripUser()}
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                                {
-                                    this.state.tampungHargaTotal === null
-                                    ?
-                                    <input type="button" value="can't pay" className='btn btn-outline-secondary btn-block'/>
-                                    :
-                                    <Link to={`/paymentall/${this.props.id}`}>
-                                    <input type="button" value={`Pay All : ${this.state.tampungHargaTotal} USD`} className='btn btn-outline-secondary btn-block'/>
-                                </Link>
-                                }
-                            </td>
-                        </tr>
-                    </tfoot>
-                </table>
+                <center style={{marginTop: "35px"}}>
+                    <div className="row">
+                        <div className="col-md-6">
+                            <button className='btn btn-outline-dark btn-block' onClick={() => this.setState({ tripOrTiket: false })}>
+                                <p style={{ textAlign: "center"}}>My trip</p>
+                            </button>   
+                        </div>
+                        <div className="col-md-6">
+                            <button className='btn btn-outline-dark btn-block' onClick={() => this.setState({ tripOrTiket : true })}>
+                                <p style={{ textAlign: "center"}}>My Ticket</p>
+                            </button>
+                        </div>
+                    </div>
+                </center>
+                {
+                    this.state.tripOrTiket
+                    ?
+                    <table className='table' style={{marginTop: "35px"}}>   
+                        <thead className='thead-dark'>
+                            <tr style={{textAlign: "center"}}>
+                                <th>Name</th>
+                                <th>Address</th>
+                                <th>Flights</th>
+                                <th>Destination</th>
+                                <th>Date Time</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          {this.renderMyTicket()}
+                        </tbody>
+
+                    </table>
+                    :
+                    <table className='table' style={{marginTop: "35px"}}>
+                        <thead className='thead-dark'>
+                            <tr style={{textAlign: "center"}}>
+                                <th>Name</th>
+                                <th>Age</th>
+                                <th>Passport</th>
+                                <th>Phone</th>
+                                <th>Address</th>
+                                <th>Status</th>
+                                <th>To</th>
+                                <th>Price</th>
+                                <th>Date</th>
+                                <th>Hitung Waktu</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.renderTripUser()}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                    {
+                                        this.state.tampungHargaTotal === null
+                                        ?
+                                        <input type="button" value="can't pay" className='btn btn-outline-secondary btn-block'/>
+                                        :
+                                        <Link to={`/paymentall/${this.props.id}`}>
+                                        <input type="button" value={`Pay All : ${this.state.tampungHargaTotal} USD`} className='btn btn-outline-secondary btn-block'/>
+                                    </Link>
+                                    }
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                }
             </div>
         )
     }

@@ -49,18 +49,20 @@ class AnswerQuestions extends Component {
         }
         return (
             <div>
-                <h1 style={{textAlign: "center", marginTop: "35px"}}>Anser</h1>
-                <table className='table' style={{marginTop: "35px"}}>
-                    <thead className='thead-dark'>
-                        <tr style={{textAlign: "center"}}>
-                            <th>Username</th>
-                            <th>Answer</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.renderSoal()}
-                    </tbody>
-                </table>
+                <div className="container">
+                    <h1 style={{textAlign: "center", marginTop: "35px"}}>Anser</h1>
+                    <table className='table' style={{marginTop: "35px"}}>
+                        <thead className='thead-dark'>
+                            <tr style={{textAlign: "center"}}>
+                                <th>Username</th>
+                                <th>Answer</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.renderSoal()}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         )
     }

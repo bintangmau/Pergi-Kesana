@@ -88,7 +88,7 @@ module.exports = {
 
         var sql2 = `insert into saldoadmin values (null, ${req.body.hargaTiket}, ${req.body.idUser}, "${req.body.waktuBayar}");`
 
-        var sql3 = `INSERT INTO penumpang VALUES (null, "${req.body.namaPenumpang}", ${req.body.usiaPenumpang}, "${req.body.alamatPenumpang}", ${req.body.idTiket}, ${req.body.idUser}); `
+        var sql3 = `INSERT INTO penumpang VALUES (null, "${req.body.namaPenumpang}", ${req.body.usiaPenumpang}, "${req.body.alamatPenumpang}", ${req.body.idTiket}, ${req.body.idUser}, "Belum Berangkat"); `
 
         var sql5 = `UPDATE tiket SET seat = seat - 1 WHERE id = ${req.body.idTiket}`
 

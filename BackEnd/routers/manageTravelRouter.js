@@ -21,6 +21,7 @@ router.post('/editwisata', manageTravelController.manageTravelController.editWis
 router.post('/editdeskripsi', manageTravelController.manageTravelController.editDeskripsi)
 router.post('/editgambar', manageTravelController.manageTravelController.editGambar)
 router.post('/editbatasbayar', manageTravelController.manageTravelController.editBatasBayar)
+router.get('/gettravelfilter/:destinasi', manageTravelController.manageTravelController.getTravelFilter)
 
 
 module.exports = router

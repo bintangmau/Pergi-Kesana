@@ -8,7 +8,8 @@ import { Redirect } from 'react-router-dom'
 
 class Pemasukan extends Component {
     state = {
-        tampungSemuaPemasukan: []
+        tampungSemuaPemasukan: [],
+        showAll: false
     }
 
     componentDidMount() {
@@ -56,6 +57,14 @@ class Pemasukan extends Component {
                 <h2 style={{textAlign: "center", marginTop: "35px"}}>Pemasukan</h2>
                 <center>
                     <input type="button" value={`Total Income: ${this.renderPemasukanTotal()} USD`} className='btn btn-outline-success'/>
+                    <div className="row" style={{marginTop: "20px", width: "400px"}}>
+                        <div className="col-md-6">
+                            <input type="button" value="Show All" onClick={() => this.setState({ showAll: true})} className='btn btn-success btn-block'/>
+                        </div>
+                        <div className="col-md-6">
+                            <input type="button" value="Cancel" onClick={() => this.setState({ showAll: false})} className='btn btn-danger btn-block'/>
+                        </div>
+                    </div>
                 </center>
                 <table className='table' style={{marginTop: "35px"}}>
                     <thead className='thead-dark'>
@@ -66,7 +75,15 @@ class Pemasukan extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {this.renderPemasukanAdmin()}
+                        {
+                            this.state.showAll
+                            ?
+                            <>
+                            {this.renderPemasukanAdmin()}
+                            </>
+                            :
+                            null
+                        }
                     </tbody>
                 </table>
             </div>

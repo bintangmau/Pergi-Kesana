@@ -20,7 +20,6 @@ import AdminDashboard from './component/Admin/AdminDashboard'
 import CartData from './component/Home/CardData/CardData'
 import ManageUsers from './component/Admin/ManageUsers'
 import ManageTravel from './component/Admin/ManageTravel'
-import PostTravel from './component/Admin/PostTravel'
 import EditTravel from './component/Admin/EditTravel'
 import ProgressTrip from './component/Admin/ProgressTrip'
 import MyTrip from './component/Home/Paket Wisata/MyTrip'
@@ -41,7 +40,6 @@ import TransaksiBerhasil from './component/Admin/TransaksiBerhasil'
 import AboutUs from './component/Navbar/AboutUs'
 import Tiket from './component/Home/Tiket'
 import ManageTicket from './component/Admin/ManageTicket'
-import PostTicket from './component/Admin/PostTicket'
 import EditTicket from './component/Admin/EditTicket'
 import TiketDetails from './component/Home/TiketDetails'
 
@@ -79,7 +77,6 @@ render(){
         <Route path = '/admindashboard' component={AdminDashboard} exact/>
         <Route path = '/manageusers' component={ManageUsers} exact/>
         <Route path = '/managetravel' component={ManageTravel} exact/>
-        <Route path = '/posttravel' component={PostTravel} exact/>
         <Route path = '/edittravel/:id' component={EditTravel} exact/>
         <Route path = '/progresstrip/:id' component={ProgressTrip} exact/>
         <Route path = '/mytrip' component={MyTrip} exact/>
@@ -100,7 +97,6 @@ render(){
         <Route path = '/aboutus' component={AboutUs} exact/>
         <Route path = '/tiket' component={Tiket} exact/>
         <Route path = '/managetiket' component={ManageTicket} exact/>
-        <Route path = '/posttiket' component={PostTicket} exact/>
         <Route path = '/edittiket/:id' component={EditTicket} exact/>
         <Route path = '/tiketdetails/:id' component={TiketDetails} exact/>
         

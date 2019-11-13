@@ -17,15 +17,11 @@ module.exports = {
         const upload = uploader(path, 'TRAVEL').fields([{name: 'image'}])
 
         upload(req, res, (err) => {
-
             if(err) {
-                
                 return res.status(500).json({ message: 'Upload image failed !', error: err.message })
             }
         
-
         const { image } = req.files //
-        
 
     
         const data = JSON.parse(req.body.data)
@@ -33,18 +29,28 @@ module.exports = {
         data.status = "Buka"
     
         data.gambar = `${path}/${image[0].filename}` //fv
-
+            
         var sql = `INSERT INTO paketwisata SET ?`
 
         db.query(sql, data, (err, results) => {
             // console.log(req.body , ' ini body')
             // console.log(req.file , ' ini file')
+            console.log(results.insertId)
+            console.log(err)
             if(err) {
-                console.log(err)
                 // fs.unlinkSync('./public' + path + '/' + gambar[0].filename)
                 return res.status(500).send(err)
-            } 
-            res.status(200).send(results)
+            } else {
+                var sql2 = `CREATE EVENT createTutupDaftarTravel_${results.insertId}
+                ON SCHEDULE AT "${data.batasBayar}"
+                DO delete from paketwisata where id = ${results.insertId};`
+
+                db.query(sql2, (err, results2) => {
+                    if(err) return res.status(500).send(err)
+            
+                    res.status(200).send(results2)
+                })
+            }
         })
     })
     },
@@ -189,7 +195,32 @@ module.exports = {
         })
     },
     editGambar: (req, res) => {
-        var sql = `UPDATE paketwisata SET gambar = "${req.body.gambarNew}" WHERE id = ${req.body.id};`
+        const path = '/image/travel'
+        const upload = uploader(path, 'EDITTRAVEL').fields([{name: 'image'}])
+
+        upload(req, res, (err) => {
+            if(err) {
+                
+                return res.status(500).json({ message: 'Upload image failed !', error: err.message })
+            } 
+
+            const { image } = req.files
+            
+            const data = JSON.parse(req.body.data)
+            data.gambar = `${path}/${image[0].filename}` 
+
+            var sql = `UPDATE paketwisata SET gambar = "${data.gambar}" WHERE id = ${data.id};`
+    
+            db.query(sql, (err, results) => {
+                
+                if(err) return res.status(500).send(err)
+        
+                res.status(200).send(results)
+            })
+        })
+    },
+    editBatasBayar: (req, res) => {
+        var sql = `UPDATE paketwisata SET batasBayar = "${req.body.batasBayarNew}" WHERE id = ${req.body.id};`
 
         db.query(sql, (err, results) => {
             
@@ -198,9 +229,10 @@ module.exports = {
             res.status(200).send(results)
         })
     },
-    editBatasBayar: (req, res) => {
-        var sql = `UPDATE paketwisata SET batasBayar = "${req.body.batasBayarNew}" WHERE id = ${req.body.id};`
+    getTravelFilter: (req, res) => {
+        var sql = `SELECT * FROM paketwisata WHERE destinasi LIKE "%${req.params.destinasi}%"`
 
+        
         db.query(sql, (err, results) => {
             
             if(err) return res.status(500).send(err)

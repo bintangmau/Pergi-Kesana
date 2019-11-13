@@ -16,5 +16,7 @@ router.post('/edittime', tiketController.editTime)
 router.post('/caritiket', tiketController.cariTiket)
 router.post('/getbookingtiket', tiketController.getBookingTiket)
 router.post('/deletetiket', tiketController.deleteTiket)
+router.post('/getmytiket', tiketController.getMyTicket)
+router.post('/getcaritiketadmin', tiketController.getCariTiketAdmin)
 
 module.exports = router

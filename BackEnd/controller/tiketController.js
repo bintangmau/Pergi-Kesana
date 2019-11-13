@@ -126,5 +126,28 @@ module.exports = {
     
             res.status(200).send(results)
         })
+    },
+    getMyTicket: (req, res) => {
+        var sql = `select * from penumpang p
+        join tiket t
+        on t.id = p.idTiket
+        join users u
+        on u.id = p.idUser
+        where idUser = ${req.body.idUser}`
+
+        db.query(sql, (err, results) => {
+            if(err) return res.status(500).send(err)
+    
+            res.status(200).send(results)
+        })
+    },
+    getCariTiketAdmin: (req, res) => {
+        var sql = `SELECT * FROM tiket WHERE ke LIKE "%${req.body.ke}%"`
+
+        db.query(sql, (err, results) => {
+            if(err) return res.status(500).send(err)
+    
+            res.status(200).send(results)
+        })
     }
 }
