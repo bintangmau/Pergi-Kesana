@@ -20,11 +20,13 @@ class ManageTicket extends Component {
         tampungTime: '',
         tampungDurasi: 0,
         tampungSeat: 0,
-        tampungPrice: 0
+        tampungPrice: 0,
+        loadingAdd: false
     }
 
     
     PostTiket = () => {
+        this.setState({ loadingAdd: true })
         Axios.post(urlApi + 'tiket/posttiket', {
             maskapai: this.state.tampungMaskapai,
             kodepesawat: this.state.tampungCode,
@@ -37,9 +39,11 @@ class ManageTicket extends Component {
             price: this.state.tampungPrice
         })
         .then(() => {
+            this.setState({ loadingAdd: false, showPostTicket: false})
             swal('Congrats!', 'Post Success', 'success')
         })
         .catch(() => {
+            this.setState({ loadingAdd: false, showPostTicket: false})
             swal('Ups!', 'Post Failed', 'error')
         })
     }
@@ -228,7 +232,20 @@ class ManageTicket extends Component {
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td><input type="button" value="Add" className='btn btn-success btn-block' onClick={this.PostTiket}/></td>
+                            <td>
+                                {
+                                    this.state.loadingAdd
+                                    ?
+                                    <center>
+                                        <div class="spinner-border" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                    </center>
+                                    :
+                                    <input type="button" value="Add" className='btn btn-success btn-block' onClick={this.PostTiket}/>
+                                }
+                            
+                            </td>
                             <td><input type="button" value="Cancel" className='btn btn-danger btn-block' onClick={() => this.setState({ showPostTicket: false })}/></td>
                         </tr>
                     </tfoot>

@@ -75,10 +75,13 @@ module.exports = {
         })
     },
     getPeserta: (req, res) => {
-        var sql = `SELECT * FROM peserta WHERE idPaket = ${req.body.idPaket}`
+        var sql = `
+            select buktiTF, namaPeserta, usiaPeserta, p.idUser, status, noPaspor, noTelp, alamat, id from buktitransfer b
+            join peserta p
+            on b.idPeserta = p.id
+            where p.idPaket = ${req.body.idPaket}; `
 
         db.query(sql, req.body, (err, results) => {
-            // console.log(req.body)
             if(err) return res.status(500).send(err)
     
             res.status(200).send(results)

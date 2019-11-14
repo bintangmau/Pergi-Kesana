@@ -70,7 +70,7 @@ class Payment extends Component {
                     Axios.post(urlApi + 'payment/gantistatusbayar', { idPeserta: this.props.match.params.id })
                     .then(() => {
                         Axios.post(urlApi + 'payment/historikesanapay', {
-                            histori: "Telah melakukan pembayaran menuju " + this.state.tampungDestinasi + ", Sebesar " + this.state.tampungHargaPerItem * 80/100 + " USD",
+                            histori: "Telah melakukan pembayaran Travel menuju " + this.state.tampungDestinasi + ", Sebesar " + this.state.tampungHargaPerItem * 80/100 + " USD",
                             idUser: this.props.id,
                             idKategori: 5,
                             waktuHistori: this.state.waktu
@@ -142,6 +142,7 @@ class Payment extends Component {
         var data = {
             idUser:  this.props.id,
             idPaket: this.state.simpanIDpaket,
+            idPeserta: this.props.match.params.id
         }
 
         bodyFormData.append('data', JSON.stringify(data))

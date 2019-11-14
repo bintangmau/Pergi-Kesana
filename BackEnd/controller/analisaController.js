@@ -84,7 +84,7 @@ module.exports = {
         })
     },
     transaksiBerhasil: (req, res) => {
-        var sql = `SELECT COUNT(*) as transaksiBerhasil from histori WHERE idKategori = 5;`
+        var sql = `SELECT COUNT(*) as transaksiBerhasil from histori WHERE (idKategori IN(5,8));`
 
         db.query(sql, (err, results) => {
             if(err) return res.status(500).send(err)
@@ -93,7 +93,7 @@ module.exports = {
         })
     },
     transaksiBerhasilDetails: (req, res) => {
-        var sql = `SELECT * FROM histori WHERE idKategori = 5;`
+        var sql = `select * from histori WHERE (idKategori IN(5,8));;`
 
         db.query(sql, (err, results) => {
             if(err) return res.status(500).send(err)

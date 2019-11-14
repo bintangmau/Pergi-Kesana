@@ -13,5 +13,6 @@ router.post('/paymenttiket', paymentController.paymentController.paymentTicket)
 router.post('/buktitransfer', paymentController.paymentController.buktiTransfer)
 router.post('/atmpayment', paymentController.paymentController.atmPayment)
 router.get('/getidpaket/:idPeserta', paymentController.paymentController.getIdpaket)
+router.put('/paymentconfirm', paymentController.paymentController.paymentConfirm)
 
 module.exports = router
