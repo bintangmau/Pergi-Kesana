@@ -14,7 +14,10 @@ class TiketDetails extends Component {
         namaPenumpang: '',
         usiaPenumpang: 0,
         alamatPenumpang: '',
-        pindahTiket: false
+        pindahTiket: false,
+        buktiTransfer: '',
+        rekeningAdmin: 987654321,
+        loadingPayment: false
     }
 
     componentDidMount() {
@@ -97,6 +100,71 @@ class TiketDetails extends Component {
         }
     }
 
+    uploadBuktiTf = () => {
+        const bodyFormData = new FormData()
+
+        var options = {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }
+
+        var data = {
+            idUser:  this.props.id,
+            idPaket: this.props.match.params.id,
+            idPeserta: 0,
+            jenisBukti: "Tiket"
+        }
+
+        bodyFormData.append('data', JSON.stringify(data))
+        bodyFormData.append('image', this.state.buktiTransfer[0])
+
+        if(this.state.namaPenumpang === '') {
+            swal('Alert!', 'Masukkan Nama!', 'warning')
+        } else if(this.state.usiaPenumpang === 0) {
+            swal('Alert!', 'Masukkan Usia!', 'warning')
+        } else if(this.state.alamatPenumpang === '') {
+            swal('Alert!', 'Masukkan Alamat!', 'warning')
+        } else if(this.state.buktiTransfer === '') {
+            swal('Alert!', 'Masukkan Gambar', 'warning')
+        } else {
+            this.setState({ loadingPayment: true })
+            Axios.post(urlApi + 'payment/buktitransfer', bodyFormData, options)
+            .then(() => {
+               Axios.post(urlApi + 'payment/tiketatmpayment', { 
+                   saldoAdmin: this.state.tampungGetBookingTiket[0].price, 
+                   idUser: this.props.id, 
+                   waktuPemasukan: this.state.waktu, 
+                   namaPenumpang: this.state.namaPenumpang,
+                   usiaPenumpang: parseInt(this.state.usiaPenumpang),
+                   alamatPenumpang: this.state.alamatPenumpang,
+                   idTiket: parseInt(this.props.match.params.id)
+                //    idPeserta: 1001 + this.props.id 
+                })
+               .then(() => {
+                   this.setState({ loadingPayment: false, pindahTiket: true})
+                   swal('Congrats', `Payment Success!`, 'success')
+               })
+               .catch((err) => {
+                   this.setState({ loadingPayment: false, pindahTiket: true })
+                   swal('Ups', 'Upload failed', 'error')
+               })
+            })
+            .catch((err) => {
+                swal('Ups', 'Upload bukti TF gagal', 'error')
+            })
+        }
+    }
+        
+    imagePost = (e) => {
+        // console.log(e.target.files)
+        if(e.target.files[0]) {
+            this.setState({ buktiTransfer: e.target.files })
+        } else {
+            this.setState({ buktiTransfer: null })
+        }
+    }
+
     render() {
         if(this.state.pindahTiket) {
             return <Redirect to='/tiket'/>
@@ -136,7 +204,26 @@ class TiketDetails extends Component {
                         !this.state.paymentShow
                         ?
                         <div>
-                            ATM Transfer
+                            <center>
+                                <h4 style={{marginTop: "20px"}}>Upload Bukti Transfer</h4>
+                                <h5>Rekening Admin: {this.state.rekeningAdmin} </h5>
+                                <div className="row" style={{marginTop: "20px", width: "500px"}}>
+                                    <div className="col-md-9">
+                                        <input type="file" className='form-control' onChange={this.imagePost}/>
+                                    </div>
+                                    <div className="col-md-3">
+                                    {
+                                    this.state.loadingPayment
+                                    ? 
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                    :
+                                    <input type="button" value="Upload" className='btn btn-success btn-block' onClick={this.uploadBuktiTf}/>                                  
+                                    }
+                                    </div>
+                                </div>
+                            </center>
                         </div>
                         :
                         <div>

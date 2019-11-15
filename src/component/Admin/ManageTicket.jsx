@@ -81,7 +81,7 @@ class ManageTicket extends Component {
                     </td>
                     <td>  
                         <p>{val.seat} Available Seat</p>
-                        <Link><input type="button" value="On Progress" className='btn btn-outline-secondary'/></Link>
+                        <Link to={`/progresstiket/${val.id}`}><input type="button" value="On Progress" className='btn btn-outline-secondary'/></Link>
                         <div className="row">
                             <div className="col-md-3">
                                 <p style={{marginTop: "10px"}}>Stock: </p>
@@ -165,9 +165,9 @@ class ManageTicket extends Component {
     }
 
     render() {
-        if(this.props.id === 0) {
-            return <Redirect to='/'/>
-        }
+        // if(this.props.id === 0) {
+        //     return <Redirect to='/'/>
+        // }
         return (
             <div>
                 <h1 style={{textAlign: "center", marginTop: "35px"}}>Managetiket</h1>

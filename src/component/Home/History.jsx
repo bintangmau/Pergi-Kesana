@@ -10,7 +10,13 @@ class History extends Component {
         tampungHistoryTopup: [],
         tampungHistoryRegisterTravel : [],
         tampungCancelTravelHistory: [],
-        tampungTransaksiUser: []
+        tampungTransaksiUser: [],
+        tampungTransaksiTiket: [],
+        topUpShow: false,
+        registerTravelShow: false,
+        cancelTravelShow: false,
+        paymentShow: false,
+        paymentTicketShow: false
     }
 
     componentDidMount() {
@@ -22,6 +28,7 @@ class History extends Component {
         this.renderCancelHistory()
         this.getHistoriTransaksi()
         this.renderHistoryTransaksi()
+        this.getTransaksiTiket()
     }
 
     getHistoryTopUp = () => {
@@ -63,6 +70,18 @@ class History extends Component {
         })
         .catch((err) => {
             swal('Ups', 'Get history transaksi failed', 'error')
+        })
+    }
+
+    getTransaksiTiket = () => {
+        Axios.get(urlApi + `history/historitransaksitiket/${this.props.id}`)
+        .then((res) => {
+            this.setState({ tampungTransaksiTiket: res.data })
+            swal('get iso', 'te', 'success')
+        })
+        .catch((err) => {
+            console.log(err)
+            swal('Ups!', 'Get history tiket failed', 'error')
         })
     }
 
@@ -136,6 +155,17 @@ class History extends Component {
         })
     }
 
+    renderHistoryTransaksiTiket = () => {
+        return this.state.tampungTransaksiTiket.map((val) => {
+            return (
+                <tr style={{textAlign: "center"}}>
+                    <td>Anda {val.histori}</td>
+                    <td>{val.waktuHistori}</td>
+                </tr>
+            )
+        })
+    }
+
     render() { if(this.props.id === 0) {
         return <Redirect to='/'/>
     }
@@ -144,6 +174,16 @@ class History extends Component {
                 <div className="row">
                     <div className="col-md-6">
                     <h3 style={{textAlign: "center", marginTop: "35px"}}>Your Top-Up Activity</h3>
+                    <center>
+                        <div className="row">
+                            <div className="col-md-6">
+                                <input type="button" value="Show All" className='btn btn-success' onClick={() => this.setState({ topUpShow: true })}/>
+                            </div>
+                            <div className="col-md-6"> 
+                                <input type="button" value="Close" className='btn btn-danger' onClick={() => this.setState({ topUpShow: false })}/>
+                            </div>
+                        </div>    
+                    </center>
                         <table className='table' style={{marginTop: "35px"}}>
                             <thead className='thead-dark'> 
                                 <tr style={{textAlign: "center"}}>
@@ -156,7 +196,15 @@ class History extends Component {
                                     this.state.tampungHistoryTopup !== []
                                     ?
                                     <>
-                                    {this.renderHistoryTopUp()}
+                                    {
+                                        this.state.topUpShow
+                                        ?
+                                        <>
+                                        {this.renderHistoryTopUp()}
+                                        </>
+                                        :
+                                        null
+                                    }
                                     </>
                                    
                                     :
@@ -172,6 +220,16 @@ class History extends Component {
                     </div>
                     <div className="col-md-6">
                     <h3 style={{textAlign: "center", marginTop: "35px"}}>Your Register Travel Activity</h3>
+                    <center>
+                        <div className="row">
+                            <div className="col-md-6">
+                                <input type="button" value="Show All" className='btn btn-success' onClick={() => this.setState({ registerTravelShow: true })}/>
+                            </div>
+                            <div className="col-md-6"> 
+                                <input type="button" value="Close" className='btn btn-danger' onClick={() => this.setState({ registerTravelShow: false })}/>
+                            </div>
+                        </div>    
+                    </center>
                         <table className='table' style={{marginTop: "35px"}}>
                             <thead className='thead-dark'> 
                                 <tr style={{textAlign: "center"}}>
@@ -180,7 +238,15 @@ class History extends Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                {this.renderHistoryRegisterTravel()}
+                                {
+                                    this.state.registerTravelShow
+                                    ?
+                                    <>
+                                    {this.renderHistoryRegisterTravel()}
+                                    </>
+                                    :
+                                    null
+                                }
                             </tbody>
                         </table>
                     </div>
@@ -188,6 +254,16 @@ class History extends Component {
                 <div className="row" style={{marginTop: "100px"}}>
                     <div className="col-md-6">
                     <h3 style={{textAlign: "center", marginTop: "35px"}}>Your Cancel Travel Activity</h3>
+                        <center>
+                        <div className="row">
+                            <div className="col-md-6">
+                                <input type="button" value="Show All" className='btn btn-success' onClick={() => this.setState({ cancelTravelShow: true })}/>
+                            </div>
+                            <div className="col-md-6"> 
+                                <input type="button" value="Close" className='btn btn-danger' onClick={() => this.setState({ cancelTravelShow: false })}/>
+                            </div>
+                        </div>    
+                        </center>
                         <table className='table' style={{marginTop: "35px"}}>
                                 <thead className='thead-dark'>
                                     <tr style={{textAlign: "center"}}>
@@ -196,12 +272,30 @@ class History extends Component {
                                     </tr>
                                 </thead>
                                 <tbody>
+                                {
+                                    this.state.cancelTravelShow
+                                    ?
+                                    <>
                                     {this.renderCancelHistory()}
+                                    </>
+                                    :
+                                    null
+                                }
                                 </tbody>
                         </table>
                     </div>
                     <div className="col-md-6">
                     <h3 style={{textAlign: "center", marginTop: "35px"}}>Your Payment Activity</h3>
+                    <center>
+                        <div className="row">
+                            <div className="col-md-6">
+                                <input type="button" value="Show All" className='btn btn-success' onClick={() => this.setState({ paymentShow: true })}/>
+                            </div>
+                            <div className="col-md-6"> 
+                                <input type="button" value="Close" className='btn btn-danger' onClick={() => this.setState({ paymentShow: false })}/>
+                            </div>
+                        </div>    
+                    </center>
                         <table className='table' style={{marginTop: "35px"}}>
                                 <thead className='thead-dark'>
                                     <tr style={{textAlign: "center"}}>
@@ -210,7 +304,49 @@ class History extends Component {
                                     </tr>
                                 </thead>
                                 <tbody>
+                                {
+                                    this.state.paymentShow
+                                    ?
+                                    <>
                                     {this.renderHistoryTransaksi()}
+                                    </>
+                                    :
+                                    null
+                                }
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div className="row">
+                <div className="col-md-6">
+                    <h3 style={{textAlign: "center", marginTop: "35px"}}>Your Payment Ticket Activity</h3>
+                        <center>
+                        <div className="row">
+                            <div className="col-md-6">
+                                <input type="button" value="Show All" className='btn btn-success' onClick={() => this.setState({ paymentTicketShow: true })}/>
+                            </div>
+                            <div className="col-md-6"> 
+                                <input type="button" value="Close" className='btn btn-danger' onClick={() => this.setState({ paymentTicketShow: false })}/>
+                            </div>
+                        </div>    
+                        </center>
+                        <table className='table' style={{marginTop: "35px"}}>
+                                <thead className='thead-dark'>
+                                    <tr style={{textAlign: "center"}}>
+                                        <th>Your Payment Ticket Activity</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {
+                                    this.state.paymentTicketShow
+                                    ?
+                                    <>
+                                    {this.renderHistoryTransaksiTiket()}
+                                    </>
+                                    :
+                                    null
+                                }
                                 </tbody>
                         </table>
                     </div>

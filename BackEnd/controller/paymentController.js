@@ -266,5 +266,81 @@ module.exports = {
                 })
             }
         })
+    },
+    tiketAtmPayment: (req, res) => {
+        var sql = `INSERT INTO penumpang 
+        VALUES(null, "${req.body.namaPenumpang}", ${req.body.usiaPenumpang}, "${req.body.alamatPenumpang}", ${req.body.idTiket}, ${req.body.idUser}, "Belum Berangkat")`
+
+        db.query(sql, (err, results) => {
+
+            if(err) {
+                return res.status(500).send(err)
+            } else {
+               
+                var sql2 = `INSERT INTO saldoadmin VALUES(null, ${req.body.saldoAdmin}, ${req.body.idUser}, "${req.body.waktuPemasukan}")`
+
+                db.query(sql2,(err, results2) => {
+                    if(err) {
+                        return res.status(500).send(err)
+                    } else {
+                        var sql4 = `select * from penumpang p
+                        join tiket t
+                        on t.id = p.idTiket
+                        join users u
+                        on u.id = p.idUser
+                        where p.idPenumpang = ${results.insertId};
+                        `
+                        
+                        db.query(sql4, (err, results4) => {
+                            console.log(err)
+                            if(err) return res.status(500).send(err)
+                            var mailOptions = {
+                                from: 'Pergi-Kesana <bintangmaulanahabib@gmail.com>',
+                                to: results4[0].email,
+                                subject: 'E-Ticket Pergi-Kesana',
+                                html: `
+                                <center>
+                                <h1>Selamat ${results4[0].namaPenumpang}, E-Ticket Berhasil !</h1>
+                                <p>Age: ${results4[0].usiaPenumpang} </p>
+                                <p>Address: ${results4[0].alamatPenumpang} </p>
+                                <p>Flights: ${results4[0].maskapai} - ${results4[0].kodepesawat}</p>
+                                <p>From: ${results4[0].dari} - To: ${results4[0].ke} - At: ${results4[0].berangkat} ${results4[0].time} </p>
+                                <p>${results4[0].price} USD</p>
+                                
+                                <h3>Kode Booking Anda: ${results4[0].idPenumpang + 1323}</h3>
+                                <h4>Salam hangat dari Kami, Pergi-Kesana</h4>
+                                </center>
+                                `
+                            };
+                            
+                            transporter.sendMail(mailOptions, (err, info) => {
+                                if (err) {
+                                    throw err;
+                                    // console.log('Email sent: ' + info.response);
+                                } else {
+                                    var sql6 = `INSERT INTO histori VALUES (null, "Telah melakukan pembayaran Tiket menuju ${results4[0].ke} sebesar ${req.body.hargaTiket}", 
+                                    ${req.body.idUser}, 8, "${req.body.waktuBayar}");`
+
+                                    db.query(sql5, (err, results5) => {
+                                        if(err) {
+                                            return res.status(500).send(err)
+                                        } else {
+                                            db.query(sql6, (err, results6) => {
+                                                if(err) return res.status(500).send(err)
+                                        
+                                                res.status(200).send(results6)
+                                            })
+                                        }
+                                    })
+                                }
+                                
+                            });
+                            
+                        })
+                    }
+                    res.status(200).send(results2)
+                })
+            }
+        })
     }
 }

@@ -51,9 +51,14 @@ module.exports = {
             res.status(200).send(results)
         })           
     },
-    getHistoriLimit: (req, res) => {
-        var sql = `select * from histori where idKategori = 8 
-                    order by idhistori desc 
-                    limit 5;`
+    historiTransaksiTiket: (req, res) => {
+        var sql = `select * from histori where idKategori = 8 AND idUser = ${req.params.idUser};`
+
+        db.query(sql, (err, results) => {
+            
+            if(err) return res.status(500).send(err)
+    
+            res.status(200).send(results)
+        })           
     }
 }

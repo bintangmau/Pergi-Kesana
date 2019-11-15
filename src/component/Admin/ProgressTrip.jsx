@@ -5,7 +5,7 @@ import Axios from 'axios'
 import {urlApi} from '../../helper/database'
 import {connect} from 'react-redux'
 import { Redirect } from 'react-router-dom'
-import { MDBContainer, MDBBtn, MDBModal, MDBModalBody, MDBModalHeader, MDBModalFooter } from 'mdbreact';
+
 
 
 class ProgressTrip extends Component {

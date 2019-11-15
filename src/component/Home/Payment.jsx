@@ -142,7 +142,8 @@ class Payment extends Component {
         var data = {
             idUser:  this.props.id,
             idPaket: this.state.simpanIDpaket,
-            idPeserta: this.props.match.params.id
+            idPeserta: this.props.match.params.id,
+            jenisBukti: "Travel"
         }
 
         bodyFormData.append('data', JSON.stringify(data))

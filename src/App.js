@@ -42,6 +42,7 @@ import Tiket from './component/Home/Tiket'
 import ManageTicket from './component/Admin/ManageTicket'
 import EditTicket from './component/Admin/EditTicket'
 import TiketDetails from './component/Home/TiketDetails'
+import ProgressTiket from './component/Admin/ProgressTiket'
 
 let cookieObj = new Cookie()
 
@@ -99,6 +100,7 @@ render(){
         <Route path = '/managetiket' component={ManageTicket} exact/>
         <Route path = '/edittiket/:id' component={EditTicket} exact/>
         <Route path = '/tiketdetails/:id' component={TiketDetails} exact/>
+        <Route path = '/progresstiket/:id' component={ProgressTiket} exact/>
         
      </Switch>
    </div>
