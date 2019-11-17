@@ -77,7 +77,6 @@ class History extends Component {
         Axios.get(urlApi + `history/historitransaksitiket/${this.props.id}`)
         .then((res) => {
             this.setState({ tampungTransaksiTiket: res.data })
-            swal('get iso', 'te', 'success')
         })
         .catch((err) => {
             console.log(err)

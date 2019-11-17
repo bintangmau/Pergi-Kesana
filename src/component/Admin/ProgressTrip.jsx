@@ -24,7 +24,7 @@ class ProgressTrip extends Component {
     }
 
     getPeserta = () => {
-        Axios.post(urlApi + 'managetravel/getpeserta', { idPaket : this.props.match.params.id})
+        Axios.get(urlApi + 'managetravel/getpeserta/' + this.props.match.params.id)
         .then((res) => {
             this.setState({ tampungPeserta : res.data })
             // swal('Success', 'Get iso', 'success')

@@ -75,13 +75,12 @@ module.exports = {
         })
     },
     getPeserta: (req, res) => {
-        var sql = `
-            select buktiTF, namaPeserta, usiaPeserta, p.idUser, status, noPaspor, noTelp, alamat, id from buktitransfer b
-            join peserta p
-            on b.idPeserta = p.id
-            where p.idPaket = ${req.body.idPaket}; `
+        var sql = ` select buktiTF, namaPeserta, usiaPeserta, p.idUser, status, noPaspor, noTelp, alamat, id from buktitransfer b
+                    join peserta p
+                    on b.idPeserta = p.id
+                    where p.idPaket = ${req.params.idPaket}; `
 
-        db.query(sql, req.body, (err, results) => {
+        db.query(sql, (err, results) => {
             if(err) return res.status(500).send(err)
     
             res.status(200).send(results)

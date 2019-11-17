@@ -7,7 +7,7 @@ router.post('/getmanagetravel', manageTravelController.manageTravelController.ge
 router.post('/posttravel', manageTravelController.manageTravelController.postTravel)
 router.post('/deletetravel', manageTravelController.manageTravelController.deleteTravel)
 router.post('/deletepeserta', manageTravelController.manageTravelController.deletePesertaTravel)
-router.post('/getpeserta', manageTravelController.manageTravelController.getPeserta)
+router.get('/getpeserta/:idPaket', manageTravelController.manageTravelController.getPeserta)
 router.post('/getnameuser', manageTravelController.manageTravelController.getNamaUser)
 router.post('/getedittravel', manageTravelController.manageTravelController.getEditTravel)
 router.post('/editdestinasi', manageTravelController.manageTravelController.editDestinasi)

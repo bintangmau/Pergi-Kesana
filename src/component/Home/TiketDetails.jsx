@@ -67,14 +67,19 @@ class TiketDetails extends Component {
     bayarTiket = () => {
         this.setState({ loadingPayment: true })
         if(this.state.namaPenumpang === '') {
+            this.setState({ loadingPayment: false })
             swal('Alert!', 'Masukkan Nama!', 'warning')
         } else if(this.state.usiaPenumpang === 0) {
+            this.setState({ loadingPayment: false })
             swal('Alert!', 'Masukkan Usia!', 'warning')
         } else if(this.state.alamatPenumpang === '') {
+            this.setState({ loadingPayment: false })
             swal('Alert!', 'Masukkan Alamat!', 'warning')
         } else if(this.state.tampungGetBookingTiket[0].price > this.state.tampungSaldoUser) {
+            this.setState({ loadingPayment: false })
             swal('Ups', 'Saldomu Kurang', 'warning')
         } else if(this.state.tampungGetBookingTiket[0].price - this.state.tampungSaldoUser === 0) {
+            this.setState({ loadingPayment: false })
             swal('Ups!', 'Saldo minimal Kesana-PAY 1 USD bro', 'warning')
         } else {
             Axios.post(urlApi + 'payment/paymenttiket', { 

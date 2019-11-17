@@ -8,6 +8,6 @@ router.post('/register', userController.userRegister)
 router.post('/registerhistory', userController.registerHistory)
 router.post('/loginhistory', userController.loginHistory)
 router.post('/editdatauser/:id', userController.editDataUser)
-router.post('/keeplogin', userController.keepLogin)
+router.get('/keeplogin/:email', userController.keepLogin)
 
 module.exports = router

@@ -17,9 +17,6 @@ export const userLogin = (userObj, loginhistory) => { // FUNCTION LOGIN
                     id : res.data[0].id
                 }
             })
-            if(res.data[0].role === 'admin'){
-                swal('Welcome!', 'Selamat datang ' + res.data[0].username, 'success')
-            } else {
                 Axios.post(urlApi + 'user/loginhistory', { histori : res.data[0].username + ' Telah melakukan Login', idUser : res.data[0].id, 
                     idKategori : loginhistory.idKategori, waktuHistori : loginhistory.waktu})
                 .then(() => {
@@ -30,7 +27,7 @@ export const userLogin = (userObj, loginhistory) => { // FUNCTION LOGIN
                     console.log(err)
                     swal ('Ye!', 'Login Failed !', 'error')
                 })
-            }
+            
         }
         else {
             console.log(res.data)
@@ -91,9 +88,7 @@ export const registerUser = (registerObj, registerhistory) => { //parameter dr f
 
 export const keepLogin = (emailUser) => {
     return(dispatch) => {
-        Axios.get(urlApi + 'user/keeplogin', {
-            email : emailUser
-            })
+        Axios.get(urlApi + 'user/keeplogin/' + emailUser )
             .then((res) => {
                 console.log(res.data[0])
                 dispatch({
@@ -107,7 +102,7 @@ export const keepLogin = (emailUser) => {
                 })
             })
             .catch((err) => {
-                console.log(err)
+                console.log(err.response)
             })
     }
 }

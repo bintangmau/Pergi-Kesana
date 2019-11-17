@@ -10,12 +10,14 @@ import moment from 'moment'
 class DestinationBox extends Component {
     state = {
         tampungTravelDetails: [],
-        waktu: moment().format('ll')
+        waktu: moment().format('ll'),
+        tampungStatusProteksi: ''
     }
 
     componentDidMount() {
         this.getTravelDetails()
         this.renderTravelDetails()
+        this.getStatusProteksi()
     }
 
     getTravelDetails = () => {
@@ -30,7 +32,16 @@ class DestinationBox extends Component {
         })
     }
 
-
+    getStatusProteksi = () => {
+        Axios.get(urlApi + `travel/getstatusproteksi/${this.props.id}`)
+        .then((res) => {
+            this.setState({tampungStatusProteksi: res.data[0].status})
+        })
+        .catch((err) => {
+            console.log(err)
+            swal('Ups!', 'Get status gagal', 'error')
+        })
+    }
     
 
     renderTravelDetails = () => {
@@ -62,7 +73,13 @@ class DestinationBox extends Component {
                                 </>
                                 :
                                 <>
-                                <Link to={`/daftartrip/${val.id}`}><input type="button" value="Trip Now" className='btn btn-outline-secondary btn-block'/></Link>
+                                {
+                                    this.state.tampungStatusProteksi === "Belum Bayar"
+                                    ?
+                                    <input type="button" value="Harap Lunasi pembayaran yang belum Lunas" className='btn btn-danger btn-block'/>
+                                    :
+                                    <Link to={`/daftartrip/${val.id}`}><input type="button" value="Trip Now" className='btn btn-outline-secondary btn-block'/></Link>
+                                }
                                 </>
                             }
                         </div>
@@ -89,6 +106,7 @@ class DestinationBox extends Component {
 
 export default connect(state => {
     return {
-        username : state.user.username  
+        username : state.user.username,
+        id : state.user.id  
     }
 })(DestinationBox)

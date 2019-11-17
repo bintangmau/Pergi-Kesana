@@ -13,7 +13,8 @@ class ManageFood extends Component {
         tampungMakanan: '',
         tampungID: 0,
         tampungPathGambar: '',
-        tampungDeskripsi: ''
+        tampungDeskripsi: '',
+        loadingPost: false
     }
 
     componentDidMount() {
@@ -68,6 +69,7 @@ class ManageFood extends Component {
         if(this.state.tampungMakanan === '' || this.state.tampungID === 0 || this.state.tampungDeskripsi === '' || this.state.tampungPathGambar === '') {
             swal('ups!', 'Input correctly', 'warning') 
         } else {
+            this.setState({ loadingPost: true })
             Axios.post(urlApi + 'managefood/postfood', bodyFormData, options)
                 .then(() => {
                     swal('Success', 'Post Success', 'success')
@@ -75,11 +77,13 @@ class ManageFood extends Component {
                         tampungMakanan: '',
                         tampungID: 0,
                         tampungPathGambar: '',
-                        tampungDeskripsi: ''
+                        tampungDeskripsi: '',
+                        loadingPost: false
                     })
                     this.getFood()
                 })
                 .catch((err => {
+                    this.setState({ loadingPost: false })
                     console.log(err)
                     swal('Ups', 'Post Failed', 'error')
                 }))
@@ -153,7 +157,21 @@ class ManageFood extends Component {
                             <td><input type="number" className='form-control' onChange={(e) => this.setState({ tampungID : e.target.value})} value={this.state.tampungID}/></td>
                             <td><input type="file" className='form-control' onChange={this.imagePost}/></td>
                             <td><input type="text" className='form-control' onChange={(e) => this.setState({ tampungDeskripsi : e.target.value})} value={this.state.tampungDeskripsi}/></td>
-                            <td><input type="button" value="Add" className='btn btn-success btn-block' onClick={this.postFood}/></td>
+                            <td>
+                            {
+                                this.state.loadingPost
+                                ?
+                                <>
+                                <center>
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                </center>
+                                </>
+                                :
+                                <input type="button" value="Add" className='btn btn-success btn-block' onClick={this.postFood}/>
+                            }
+                            </td>
                         </tr>
                     </tbody>
                 </table>

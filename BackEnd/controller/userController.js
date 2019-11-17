@@ -74,13 +74,14 @@ module.exports = {
         })
     },
     keepLogin: (req, res) => {
-        var sql = `SELECT * from users WHERE email = "${req.body.email}"`
+        var sql = `SELECT * from users WHERE email = "${req.params.email}"`
 
         db.query(sql, (err, results) => {
+         
             if(err) {
-                console.log(err)
                 return res.status(500).send(err)
             } 
+          
             res.status(200).send(results)
         })
     }

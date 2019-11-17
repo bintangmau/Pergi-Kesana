@@ -30,6 +30,7 @@ class MyTrip extends Component {
         .then((res) => {
             this.setState({ tampungTripUser : res.data})
             // swal('Yeah', 'GEt bisa', 'success')
+            console.log(res.data)
             // console.log(res.data)
         })
         .catch((err) => {

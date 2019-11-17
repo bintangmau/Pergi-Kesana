@@ -14,6 +14,7 @@ class Payment extends Component {
         tampungDestinasi: '',
         tampungPasswordPembayaran: '',
         tampungSaldoUser: 0,
+        tampungIDPaket: 0,
         waktu : new Date().getFullYear() + '/' + (new Date().getMonth() + 1)  + '/' + new Date().getDate(),
         outPayment: false,
         loadingPayment: false,
@@ -32,7 +33,7 @@ class Payment extends Component {
     getHargaPerItem = () => {
         Axios.post(urlApi + 'travel/gethargaperitem', { idPaket : this.props.match.params.id })
         .then((res) => {
-            this.setState({ tampungHargaPerItem : res.data[0].harga, tampungBatasBayar : res.data[0].batasBayar, tampungDestinasi : res.data[0].destinasi })
+            this.setState({ tampungHargaPerItem : res.data[0].harga, tampungBatasBayar : res.data[0].batasBayar, tampungDestinasi : res.data[0].destinasi, tampungIDPaket: res.data[0].id })
             // swal('Yeah', 'GEt bisaharga', 'success')
             // console.log(this.state.tampungHargaTotal)
         })
@@ -67,7 +68,7 @@ class Payment extends Component {
                 })
                 .then(() => {
                     this.getSaldoUser()
-                    Axios.post(urlApi + 'payment/gantistatusbayar', { idPeserta: this.props.match.params.id })
+                    Axios.post(urlApi + 'payment/gantistatusbayar', { idPeserta: this.props.match.params.id, idUser: this.props.id, idPaket: this.state.tampungIDPaket })
                     .then(() => {
                         Axios.post(urlApi + 'payment/historikesanapay', {
                             histori: "Telah melakukan pembayaran Travel menuju " + this.state.tampungDestinasi + ", Sebesar " + this.state.tampungHargaPerItem * 80/100 + " USD",
@@ -149,34 +150,40 @@ class Payment extends Component {
         bodyFormData.append('data', JSON.stringify(data))
         bodyFormData.append('image', this.state.buktiTransfer[0])
 
-        Axios.post(urlApi + 'payment/buktitransfer', bodyFormData, options)
-        .then(() => {
-           Axios.post(urlApi + 'payment/atmpayment', { 
-               saldoAdmin: this.state.tampungHargaPerItem, 
-               idUser: this.props.id, 
-               waktuPemasukan: this.state.waktu, 
-               idPeserta: this.props.match.params.id 
-            })
-           .then(() => {
-               swal('Saldo admin masuk', `${ this.state.tampungHargaPerItem}`, 'success')
-           })
-           .catch((err) => {
-               console.log(err)
-               swal('Ups', 'Saldoadmin gamasuk', 'error')
-           })
-        })
-        .catch((err) => {
-            console.log(this.state.buktiTransfer[0])
-            swal('Ups', 'Upload bukti TF gagal', 'error')
-        })
-    }
+            if(this.state.buktiTransfer === '') {
+                swal('Alert!', 'Masukkan Gambar', 'warning')
+            } else {
+                this.setState({ loadingPayment: true })
+                Axios.post(urlApi + 'payment/buktitransfer', bodyFormData, options)
+                .then(() => {
+                Axios.post(urlApi + 'payment/atmpayment', { 
+                    saldoAdmin: this.state.tampungHargaPerItem, 
+                    idUser: this.props.id, 
+                    waktuPemasukan: this.state.waktu, 
+                    idPeserta: this.props.match.params.id 
+                    })
+                .then(() => {
+                    this.setState({ loadingPayment: false })
+                    swal(`Selamat ${this.props.username} !`, `Transaksi Berhasil!`, 'success')
+                })
+                .catch((err) => {
+                    console.log(err)
+                    swal('Ups', 'Saldoadmin gamasuk', 'error')
+                })
+                })
+                .catch((err) => {
+                    console.log(this.state.buktiTransfer[0])
+                    swal('Ups', 'Upload bukti TF gagal', 'error')
+                })
+            }
+        }
 
 
 
     render() {
-        // if(this.props.id === 0 || this.state.outPayment === true) {
-        //     return <Redirect to='/'/>
-        // }
+        if(this.props.id === 0 || this.state.outPayment === true) {
+            return <Redirect to='/'/>
+        }
         return (
             <div>
                  <h1 style={{textAlign: "center", marginTop: "35px"}}>Payment</h1>
@@ -212,7 +219,19 @@ class Payment extends Component {
                                         <input type="file" className='form-control' onChange={this.imagePost}/>
                                     </div>
                                     <div className="col-md-3">
+                                    {
+                                        this.state.loadingPayment
+                                        ?
+                                        <>
+                                        <center>
+                                            <div class="spinner-border" role="status">
+                                                <span class="sr-only">Loading...</span>
+                                            </div>
+                                        </center>
+                                            </>
+                                            :
                                         <input type="button" value="Upload" className='btn btn-success btn-block' onClick={this.uploadBuktiTf}/>
+                                    }
                                     </div>
                                 </div>    
                             </center>

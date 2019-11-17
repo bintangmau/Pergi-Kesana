@@ -15,5 +15,6 @@ router.post('/getnamatravel', travelController.travelController.getNamaTravel)
 router.post('/canceltriphistory', travelController.travelController.cancelTripHistory)
 router.post('/tutuppendaftaran', travelController.travelController.tutupPendaftaran)
 router.post('/canceltripnopay', travelController.travelController.cancelTripNoPay)
+router.get('/getstatusproteksi/:idUser', travelController.travelController.getStatusForProteksi)
 
 module.exports = router

@@ -26,6 +26,7 @@ module.exports = {
 
 
         db.query(sql, req.body, (err, results) => {
+            console.log(req.bo)
             if(err) {
                 return res.status(500).send(err)
             } else {
@@ -39,7 +40,7 @@ module.exports = {
     },
     getTripUser: (req, res) => {
         var sql = `SELECT p.id as idPeserta, namaPeserta, usiaPeserta, p.status as statusPeserta, idPaket, noPaspor, alamat, noTelp, pw.destinasi, pw.harga,
-                    pw.berangkat, pw.pulang, p.timeout, timestampdiff(minute, now(), timeout) * 1000 as hitungWaktu
+                    pw.berangkat, pw.pulang, p.timeout, timestampdiff(second, now(), timeout) * 1000 as hitungWaktu
                     FROM peserta p
                     JOIN paketwisata pw
                     on p.idPaket = pw.id
@@ -142,7 +143,15 @@ module.exports = {
             if(err) return res.status(500).send(err)
     
             res.status(200).send(results)
-        })
-            
+        })       
+    },
+    getStatusForProteksi: (req, res) => {
+        var sql = `select * from peserta where idUser = ${req.params.idUser} order by id desc limit 1;`
+
+        db.query(sql, (err, results) => {
+            if(err) return res.status(500).send(err)
+    
+            res.status(200).send(results)
+        })       
     }
 }

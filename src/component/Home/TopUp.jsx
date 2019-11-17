@@ -11,7 +11,8 @@ class TopUp extends Component {
         tampungSaldoUser : 0,
         tampungTopUp : 0,
         kenapaKesanaPay: false,
-        waktu : new Date().getFullYear() + '/' + (new Date().getMonth() + 1)  + '/' + new Date().getDate()
+        waktu : new Date().getFullYear() + '/' + (new Date().getMonth() + 1)  + '/' + new Date().getDate(),
+        loading: false
     }
 
     componentDidMount() {
@@ -36,16 +37,18 @@ class TopUp extends Component {
 
     
     topUp = () => {
+        this.setState({ loading: true })
         Axios.post(urlApi + 'saldouser/topup', { saldo : this.state.tampungTopUp, idUser : this.props.id})
         .then((res) => {
             Axios.post(urlApi + 'saldouser/topuphistory', { histori : 'Telah melakukan isi ulang Kesana-PAY sebesar ' + this.state.tampungTopUp + ' USD', idUser : this.props.id,
                     idKategori : 1, waktuHistori : this.state.waktu})
                     .then((res) => {
                         swal('Yeah', 'Top Up Success', 'success')
-                        this.setState({ tampungTopUp : ''})
+                        this.setState({ tampungTopUp : '', loading: false })
                         this.getSaldoUser()
                     })      
                     .catch((err) => {
+                        this.setState({ loading: false })
                         swal('Ups', ' Top Up Failed history', 'error')
                     })
         })
@@ -112,7 +115,19 @@ class TopUp extends Component {
                                     <input type="number" className='form-control' onChange={(e) => this.setState({ tampungTopUp : e.target.value })} value={this.state.tampungTopUp}/>
                                 </div>
                                 <div className="col-md-3">
-                                    <input type="button" className='btn btn-outline-success btn-block' value="Top-Up" onClick={this.topUp}/>
+                                {
+                                this.state.loading
+                                ?
+                                <>
+                                <center>
+                                    <div class="spinner-border" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                </center>
+                                </>
+                                :
+                                <input type="button" className='btn btn-outline-success btn-block' value="Top-Up" onClick={this.topUp}/>
+                                }
                                 </div>
                             </div>
                         </div>
