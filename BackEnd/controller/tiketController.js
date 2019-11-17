@@ -149,5 +149,17 @@ module.exports = {
     
             res.status(200).send(results)
         })
+    },
+    progressTiket: (req, res) => {
+        var sql = `select * from penumpang p
+                    join tiket t
+                    on t.id = p.idTiket
+                    where p.idTiket = ${req.params.idTiket};`
+
+        db.query(sql, (err, results) => {
+            if(err) return res.status(500).send(err)
+    
+            res.status(200).send(results)
+        })
     }
 }
