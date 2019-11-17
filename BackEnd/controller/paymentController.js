@@ -239,6 +239,7 @@ module.exports = {
         on u.id = p.idUser
         where p.id = ${req.body.idPeserta};`
 
+      
         db.query(sql, (err, results) => {
             if(err) {
                 return res.status(500).send(err)
@@ -265,9 +266,19 @@ module.exports = {
                         };
                         
                         transporter.sendMail(mailOptions, (err, info) => {
-                            if (err) throw err;
+                            if (err) {
+                                throw err;
                             // console.log('Email sent: ' + info.response);
-                            res.status(200).send(info)
+                            } else {
+                                var sql3 = `INSERT INTO histori VALUES (null, "Telah melakukan pembayaran Tiket menuju cok ${results2[0].destinasi} sebesar ${results2[0].harga}", 
+                                ${results2[0].idUser}, 5, "${req.body.waktu}");`
+
+                                db.query(sql3, (err, results3) => {
+                                    if(err) return res.status(500).send(err)
+                          
+                                    res.status(200).send(info)
+                                    })
+                            }
                         });
                     }
                 })

@@ -15,7 +15,8 @@ class ProgressTrip extends Component {
         modal13: false,
         tampungBuktiTransfer: [],
         showBuktiTF : false,
-        selectedDataTF: {}
+        selectedDataTF: {},
+        waktu : new Date().getFullYear() + '/' + (new Date().getMonth() + 1)  + '/' + new Date().getDate()
     }
 
     componentDidMount() {
@@ -41,10 +42,11 @@ class ProgressTrip extends Component {
 
     paymentConfirm = (idPeserta) => {
         this.setState({ loadingConfirm: true })
-        Axios.put(urlApi + 'payment/paymentconfirm', { idPeserta })
-        .then(() => {
+        Axios.put(urlApi + 'payment/paymentconfirm', { idPeserta, idUser: this.props.id, waktu: this.state.waktu })
+        .then((res) => {
             this.getPeserta()
             this.setState({ loadingConfirm: false })
+            console.log(res.data)
             swal('Ye!', 'Confirm Success', 'success')
         })
         .catch((err) => {
@@ -159,7 +161,8 @@ class ProgressTrip extends Component {
 
 const mapStateToProps = (state) => {
     return {
-      username : state.user.username
+      username : state.user.username,
+      id: state.user.id
     } 
   }
   

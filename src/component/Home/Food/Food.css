@@ -12,12 +12,15 @@
     
 }
 
+.contentFood {
+    display: flex;
+    flex-direction: row;
+    align-items: center ;
+    justify-content: center;
+}
+
 .contentFood h1 {
     font-size: 4rem;
     color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
+    margin-top: 300px;
 }

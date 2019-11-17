@@ -21,7 +21,7 @@ class ManageTravel extends Component {
         tampungHotel: '',
         tampungBerangkat: '',
         tampungPulang: '',
-        tampungKuota: 0,
+        tampungKuota: 100,
         tampungWisata: '',
         tampungDeskripsi: '',
         tampungGambar: '',
@@ -112,7 +112,7 @@ class ManageTravel extends Component {
                         <Link to={`/progresstrip/${val.id}`}><input type="button" value="On Progress" className='btn btn-outline-secondary'/></Link>
                         <div className="row">
                             <div className="col-md-3">
-                                <p style={{marginTop: "10px"}}>Ticket Stock: </p>
+                                <p style={{marginTop: "10px"}}>Stock: </p>
                             </div>
                             <div className="col-md-8">
                                 <div className="progress" style={{marginTop: "15px"}}>
@@ -205,7 +205,7 @@ class ManageTravel extends Component {
             tampungHotel: '',
             tampungBerangkat: '',
             tampungPulang: '',
-            tampungKuota: 0,
+            tampungKuota: 100,
             tampungWisata: '',
             tampungDeskripsi: '',
             tampungGambar: '',
@@ -246,7 +246,7 @@ class ManageTravel extends Component {
             return <Redirect to='/'/>
           }
         return (
-            <div>
+            <div className='container'>
                 <h2 style={{textAlign: "center", marginTop: "35px"}}>Manage Travel</h2>
                 <div className="row" style={{float: "right", margin: "20px", width: "300px"}}>
                     <div className="col-md-6">
@@ -295,7 +295,7 @@ class ManageTravel extends Component {
                        <tbody>
                            <tr>
                                <td><input type="text" className='form-control' onChange={(e) => this.setState({ tampungHotel : e.target.value})} value={this.state.tampungHotel}/></td>
-                               <td><input type="number" className='form-control' onChange={(e) => this.setState({ tampungKuota : e.target.value})} value={this.state.tampungKuota}/></td>
+                               <td><p>{this.state.tampungKuota}</p></td>
                                <td><input type="text" className='form-control' onChange={(e) => this.setState({ tampungWisata : e.target.value})} value={this.state.tampungWisata}/></td>
                                <td><input type="text" className='form-control' onChange={(e) => this.setState({ tampungDeskripsi : e.target.value})} value={this.state.tampungDeskripsi}/></td>
                                <td><input type="file" className='form-control' onChange={this.imagePost} /></td>

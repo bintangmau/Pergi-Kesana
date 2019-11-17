@@ -16,10 +16,15 @@ export const userLogin = (userObj, loginhistory) => { // FUNCTION LOGIN
                     email : res.data[0].email,
                     id : res.data[0].id
                 }
-            })
+            }) 
+            if(res.data[0].role === 'admin') {
+                localStorage.setItem('data', res.data[0].email)
+                swal('Welcome!', 'Selamat datang ' + res.data[0].username , 'success')
+            } else {
                 Axios.post(urlApi + 'user/loginhistory', { histori : res.data[0].username + ' Telah melakukan Login', idUser : res.data[0].id, 
                     idKategori : loginhistory.idKategori, waktuHistori : loginhistory.waktu})
                 .then(() => {
+                    console.log(res.data[0])
                     localStorage.setItem('data', res.data[0].email)
                     swal('Welcome!', 'Selamat datang ' + res.data[0].username , 'success')
                 })
@@ -27,7 +32,7 @@ export const userLogin = (userObj, loginhistory) => { // FUNCTION LOGIN
                     console.log(err)
                     swal ('Ye!', 'Login Failed !', 'error')
                 })
-            
+            }
         }
         else {
             console.log(res.data)

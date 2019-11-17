@@ -192,22 +192,22 @@ class MyTrip extends Component {
     }
 
     render() {
-        if(this.props.id === 0) {
-            return <Redirect to='/'/>
-        }
+        // if(this.props.id === 0) {
+        //     return <Redirect to='/'/>
+        // }
         return (
             <div>
                 <center style={{marginTop: "35px"}}>
-                    <div className="row">
-                        <div className="col-md-6">
-                            <button className='btn btn-outline-dark btn-block' onClick={() => this.setState({ tripOrTiket: false })}>
-                                <p style={{ textAlign: "center"}}>My trip</p>
-                            </button>   
+                    <div className="row" style={{margin: "30px", padding: "20px"}}>
+                        <div className="col-md-6" onClick={() => this.setState({ tripOrTiket: false })} style={{
+                            backgroundColor: "black", width: "300px"
+                        }}>
+                                <p style={{ textAlign: "center" ,color: "white", fontSize: "20px", marginTop: "12px"}}>My trip</p>
                         </div>
-                        <div className="col-md-6">
-                            <button className='btn btn-outline-dark btn-block' onClick={() => this.setState({ tripOrTiket : true })}>
-                                <p style={{ textAlign: "center"}}>My Ticket</p>
-                            </button>
+                        <div className="col-md-6" onClick={() => this.setState({ tripOrTiket: true })} style={{
+                              backgroundColor: "black", width: "300px"
+                        }}>
+                                <p style={{ textAlign: "center", color: "white", fontSize: "20px", marginTop: "12px"}}>My Ticket</p>
                         </div>
                     </div>
                 </center>
